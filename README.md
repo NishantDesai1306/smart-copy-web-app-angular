@@ -1,7 +1,7 @@
 # MEAN5-Starter
 MEAN5 Starter is an MEAN5 stack based project for giving a kickstart to your new project.
 
-**Angular 2 (^2.4.4)** to develop front-end
+**Angular 5** to develop front-end
 
 **Node** as back-end server
 
@@ -16,7 +16,7 @@ This project implements a simple login system and this project is intentionally 
 Setup this project
 
 1. `git clone https://github.com/NishantDesai1306/MEAN5-Angular-Material-Starter.git`
-2. Open terminal and navgate to `mean5-starter` directory
+2. Open terminal and navigate to `MEAN5-Angular-Material-Starter` directory
 3. Execute `npm install` to install all npm dependencies for development
 4. To start the project execute `npm run start`
 5. Open [localhost:3000](https://localhost:3000)
@@ -27,4 +27,4 @@ Setup this project
 
 ---
 
-###### Both `client` and `server` are under watch so no need to build project everytime you change the code.
+###### Both `client` and `server` are under watch so no need to build project every time you change the code.
