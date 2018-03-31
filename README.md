@@ -15,15 +15,15 @@ This project implements a simple login system and this project is intentionally 
 
 Setup this project
 
-1. `git clone https://github.com/NishantDesai1306/MEAN5-Starter.git`
+1. `git clone https://github.com/NishantDesai1306/MEAN5-Angular-Material-Starter.git`
 2. Open terminal and navgate to `mean5-starter` directory
 3. Execute `npm install` to install all npm dependencies for development
 4. To start the project execute `npm run start`
 5. Open [localhost:3000](https://localhost:3000)
 
-![ ](https://github.com/NishantDesai1306/MEAN5-Starter/blob/master/image/demo.png)
-![ ](https://github.com/NishantDesai1306/MEAN5-Starter/blob/master/image/login.png)
-![ ](https://github.com/NishantDesai1306/MEAN5-Starter/blob/master/image/user-details.png)
+![ ](https://github.com/NishantDesai1306/MEAN5-Angular-Material-Starter/blob/master/image/demo.png)
+![ ](https://github.com/NishantDesai1306/MEAN5-Angular-Material-Starter/blob/master/image/login.png)
+![ ](https://github.com/NishantDesai1306/MEAN5-Angular-Material-Starter/blob/master/image/user-details.png)
 
 ---
 
