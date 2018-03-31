@@ -1,0 +1,60 @@
+@import './home/home.component.scss';
+@import './login/login.component.scss';
+@import './dashboard/dashboard.component.scss';
+@import './dashboard/user/user.component.scss';
+@import './loader.scss';
+@import './utility.scss';
+@import "https://fonts.googleapis.com/css?family=Material+Icons";
+@import "https://fonts.googleapis.com/css?family=Roboto:400,300";
+@import '../../node_modules/@angular/material/_theming.scss';
+@import "../../node_modules/basscss/css/basscss.min.css";
+@include mat-core();
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-grey);
+$theme: mat-light-theme($primary, $accent);
+@include angular-material-theme($theme);
+h1 {
+    color: blue;
+}
+
+.mat-primary.mat-toolbar {
+    position: fixed;
+    z-index: 2;
+}
+
+.indigo-background-color {
+    background: mat-color($mat-indigo, 500) !important;
+}
+
+.white-background-color {
+    background: white;
+}
+
+.white-text-color {
+    color: white;
+}
+
+.white-input {
+    color: white;
+    .mat-input-placeholder {
+        color: white !important;
+    }
+    .mat-input-underline {
+        background: mat-color($mat-grey, 300);
+        .mat-input-ripple {
+            background: white;
+        }
+    }
+}
+
+.white-progress-bar .mat-progress-bar-fill::after {
+    background: white;
+}
+
+.toolbar-icon {
+    padding: 0 14px;
+}
+  
+.toolbar-spacer {
+    flex: 1 1 auto;
+}

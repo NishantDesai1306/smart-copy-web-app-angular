@@ -1,0 +1,54 @@
+<div class="margin-top-50 clearfix">
+    <div class="col col-4"></div>
+    <div class="col col-4">
+        <mat-card class="indigo-background-color">
+            <mat-card-header class="flex justify-center items-center">
+                <mat-icon class="white-text-color mr1 font-size-30" style="height: 100%;">account_circle</mat-icon>
+
+                <div>
+                    <h2 class="white-text-color mb0">
+                        User Details
+                    </h2>
+                </div>
+            </mat-card-header>
+            <mat-card-content class="mt2">
+                <div class="avatar-100-image-overlay-wrapper flex justify-center">
+                    <div class="avatar-100" class="avatar-100 avatar-100-image-overlay white-text-color">
+                        <input type="file" id="profile-picture" ngFileSelect [options]="uploaderOptions" [events]="inputUploadEvent" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)" (onPreviewData)="handlePreviewData($event)">
+                        <span>
+                            <b>Change</b>&nbsp;
+                        </span>
+                        <mat-icon>mode_edit</mat-icon>
+                    </div>
+
+                    <div>
+                        <img [src]="user.profilePictureUrl" alt="profile picture" class="avatar-100">
+                    </div>
+                </div>
+
+                <div class="mt1 mb2" *ngIf="!!uploadProgress">
+                    {{uploadProgress}}
+                    <mat-progress-bar class="white-progress-bar" [color]="primary" [mode]="determinate" [value]="uploadProgress">
+                    </mat-progress-bar>
+                </div>
+
+                <mat-form-field class="white-input width-100 mt1" hintLabel="{{usernameError}}">
+                    <input matInput placeholder="Username" [(ngModel)]="user.username">
+                </mat-form-field>
+
+                <mat-form-field class="white-input width-100 mt1" hintLabel="{{emailError}}">
+                    <input matInput type="email" placeholder="Email" [(ngModel)]="user.email">
+                </mat-form-field>
+
+                <div class="clearfix">
+                    <div class="col col-12 p1">
+                        <button class="width-100" mat-raised-button (click)="saveChanges()">Save Changes</button>
+                    </div>
+                    <div class="col col-12 p1">
+                        <button class="width-100" routerLink="/dashboard/change-password" mat-raised-button>Change Password</button>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

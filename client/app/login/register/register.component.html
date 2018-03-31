@@ -1,0 +1,35 @@
+<div class="clearfix">
+    <div class="col col-4"></div>
+    <div class="col col-4">
+        <mat-card class="margin-top-50 indigo-background-color">
+            <mat-card-header>
+                <div>
+                    <h2 class="white-text-color">Register</h2>
+                </div>
+            </mat-card-header>
+            <mat-card-content class="ml2">
+                <mat-input-container class="white-input mt2 width-100" hintLabel="{{emailError}}">
+                    <input [(ngModel)]="user.email" matInput placeholder="Email" type="email">
+                </mat-input-container>
+        
+                <mat-input-container class="white-input mt2 width-100" hintLabel="{{usernameError}}">
+                    <input [(ngModel)]="user.username" matInput placeholder="Username">
+                </mat-input-container>
+        
+                <mat-input-container class="white-input mt2 width-100">
+                    <input [(ngModel)]="user.password" matInput placeholder="Password" type="password">
+                </mat-input-container>
+        
+                <mat-input-container class="white-input mt2 width-100" hintLabel="{{passwordError}}">
+                    <input [(ngModel)]="user.confirmPassword" matInput placeholder="Confirm Password" type="password">
+                </mat-input-container>
+        
+                <div class="clearfix mt3">
+                    <div class="col col-12 px3">
+                        <button class="width-100" (click)="register()" mat-raised-button>Register</button>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

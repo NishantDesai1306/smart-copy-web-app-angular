@@ -1,0 +1,17 @@
+.center-align {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.white-toggle-switch {
+    color: white;
+}
+
+.white-toggle-switch.mat-slide-toggle .mat-slide-toggle-thumb {
+    background-color: grey !important;
+}
+
+.white-toggle-switch.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: white !important;
+}
