@@ -1,28 +1,5 @@
 <div class="flex">
-    <mat-toolbar color="primary">
-        <span>
-            <a style="color: white; text-decoration: none;" [routerLink]="['/home']">Angular Material 5</a>
-        </span>
-
-        <span class="toolbar-spacer"></span>
-    
-        <button matTooltip="Dashboard" routerLink='/dashboard' class="p3" *ngIf="user.getUsername()" mat-icon-button>
-            <mat-icon>dashboard</mat-icon>
-        </button>
-        <button *ngIf="user.getUsername()" mat-button [matMenuTriggerFor]="menu">
-            <mat-icon>account_circle</mat-icon> &nbsp; {{user.getUsername()}}
-        </button>
-        <mat-menu #menu="matMenu">
-            <button mat-menu-item routerLink="/dashboard/user">
-                <mat-icon>person</mat-icon>
-                <span>User Details</span>
-            </button>
-            <button mat-menu-item (click)="logout()">
-                <mat-icon>exit_to_app</mat-icon>
-                <span>Logout</span>
-            </button>
-        </mat-menu>
-    </mat-toolbar>
+    <toolbar></toolbar>
     
     <div class="width-100 mt4">
         <div class="content">
