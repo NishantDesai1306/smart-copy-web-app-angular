@@ -10,7 +10,6 @@ import { LoginModule } from './login/login.module';
 
 import { AppComponent }  from './app.component';
 import { AppRoutingModule } from './app.routing';
-import { HomeComponent } from './home/home.component';
 import { ChangePasswordComponent } from './dashboard/change-password/change-password.component';
 import { UserComponent } from './dashboard/user/user.component';
 import { MainComponent } from './dashboard/main/main.component';
@@ -33,7 +32,6 @@ import { SharedModule } from './shared/shared.module';
   ],
   declarations: [ 
     AppComponent,
-    HomeComponent,
     DashboardComponent,
     MainComponent,
     UserComponent,

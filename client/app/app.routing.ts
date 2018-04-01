@@ -5,10 +5,8 @@ import { DashboardCanActivateGuard } from './app.guards';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
-    {path: 'home', component: HomeComponent},
     {
         path: 'dashboard', 
         component: DashboardComponent, 
@@ -20,7 +18,7 @@ const appRoutes: Routes = [
             {path: 'change-password', component: ChangePasswordComponent}
         ]
     },
-    {path: '', redirectTo: '/home', pathMatch: 'full'}
+    {path: '', redirectTo: '/login', pathMatch: 'full'}
 ];
 
 @NgModule({
