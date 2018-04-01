@@ -15,7 +15,7 @@ var salt = require('./config').salt;
 var fs = require('fs');
 
 //mongoose connect
-mongoose.connect('mongodb://localhost/mean5-starter');
+mongoose.connect('mongodb://localhost/smart-copy');
 
 // set our port
 var port = process.env.PORT || 3000;
