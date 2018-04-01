@@ -6,7 +6,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {LoginComponent} from './login.component';
 import {LoginRoutingModule} from './login.routing';
@@ -21,7 +20,6 @@ import { MaterialModule } from '../shared/material.module';
         SharedModule,
 
         MaterialModule,
-        FlexLayoutModule,
         BrowserAnimationsModule
     ],
     declarations: [

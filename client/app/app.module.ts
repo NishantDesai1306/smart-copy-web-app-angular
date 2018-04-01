@@ -3,7 +3,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import { NgUploaderModule } from 'ngx-uploader';
 
 import { MaterialModule } from './shared/material.module';
@@ -31,7 +30,6 @@ import { SharedModule } from './shared/shared.module';
     NgUploaderModule,
 
     MaterialModule,
-    FlexLayoutModule,
   ],
   declarations: [ 
     AppComponent,
