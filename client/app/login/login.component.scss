@@ -15,3 +15,41 @@
 .white-toggle-switch.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
     background-color: white !important;
 }
+
+$logo-height: 80px;
+div.logo-container {
+    position: absolute;
+    left: 0;
+    top: -$logo-height/2;
+
+    img.logo {
+        display: block;
+        margin-left: auto;
+        height: $logo-height;
+        margin-right: auto;
+        padding: 8px;
+        border-radius: $logo-height/2;
+    }
+}
+
+%social-login-button {
+    height: 40px;
+    font-size: 17px;
+    color: white;
+
+    i {
+        position: absolute;
+        top: 30%;
+        left: 5%;
+    }
+}
+
+button.google-login {
+    @extend %social-login-button;
+    background: #D34836;
+}
+
+button.facebook-login {
+    @extend %social-login-button;
+    background: #3B5998;
+}

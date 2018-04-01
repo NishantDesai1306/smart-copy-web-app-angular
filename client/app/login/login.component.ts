@@ -1,3 +1,4 @@
+import { GoogleLoginProvider, FacebookLoginProvider, AuthService as SocialAuthService } from 'angular5-social-login';
 import {AuthService} from './../shared/auth.service';
 
 import {Component, OnInit} from '@angular/core';
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
         private authService : AuthService, 
         private router : Router, 
         private route : ActivatedRoute,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+        private socialAuthService: SocialAuthService
     ) {}
 
     login() {
@@ -61,4 +63,23 @@ export class LoginComponent implements OnInit {
             }
         });
     }
+
+    public socialSignIn(socialPlatform : string) {
+        let socialPlatformProvider;
+        if(socialPlatform == "facebook"){
+          socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+        }else if(socialPlatform == "google"){
+          socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+        }
+        
+        this.socialAuthService.signIn(socialPlatformProvider)
+        .then((userData) => {
+            console.log(socialPlatform+" sign in data : " , userData);
+    
+          }
+        )
+        .catch((err) => {
+            console.log(err);
+        });
+      }
 }

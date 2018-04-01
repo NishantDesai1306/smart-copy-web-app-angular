@@ -24,6 +24,7 @@
     "@angular/platform-server": "^5.0.0",
     "@angular/router": "^5.0.0",
     "angular2-cookie": "^1.2.6",
+    "angular5-social-login": "^1.0.9",
     "basscss": "^8.0.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.16.0",

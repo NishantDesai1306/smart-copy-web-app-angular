@@ -1,13 +1,19 @@
-<div class="clearfix pt4">
-    <div class="col col-4"></div>
-    <div class="col col-4">
-        <mat-card class="mt4 indigo-background-color">
-            <mat-card-header class="mb-2">
+<div class="clearfix pt2">
+    <div class="col col-3"></div>
+    <div class="col col-6">
+        <mat-card class="m4 indigo-background-color">
+            <div class="width-100 logo-container">
+                <img src="/images/icon.png" alt="logo" class="logo indigo-background-color" >
+            </div>
+            <mat-card-header class="mt3 mb2 flex justify-center items-center">
+                <div class="mr2">
+                    <mat-icon style="font-size: 35px;" class="white-text-color">account_circle</mat-icon>
+                </div>
                 <div>
                     <h2 class="white-text-color">Login</h2>
                 </div>
             </mat-card-header>
-            <mat-card-content class="ml2">
+            <mat-card-content>
                 <mat-form-field class="white-input mt1 width-100">
                     <input matInput placeholder="Username" [(ngModel)]="user.email">
                 </mat-form-field>
@@ -24,6 +30,21 @@
                     </div>
                     <div class="col col-6 px3">
                         <button class="width-100" routerLink="/register" mat-raised-button fxFlex>Register</button>
+                    </div>
+                </div>
+
+                <div class="clearfix mt3">
+                    <div class="col col-12 px3 pb2">
+                        <button mat-raised-button class="width-100 google-login" (click)="socialSignIn('google')">
+                            <i class="fa fa-google"></i>
+                            Login with Google
+                        </button>
+                    </div>
+                    <div class="col col-12 px3">
+                        <button mat-raised-button class="width-100 facebook-login" (click)="socialSignIn('facebook')">
+                            <i class="fa fa-facebook" style="float: left"></i>
+                            Login with Facebook
+                        </button>
                     </div>
                 </div>
             </mat-card-content>

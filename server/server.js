@@ -28,6 +28,7 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(cookieParser());
 
 app.use(express.static(path.resolve('./dist')));
+app.use(express.static(path.resolve('./assets')));
 app.use('/upload', express.static('upload'));
 app.use('/node_modules', express.static('node_modules'));
 
