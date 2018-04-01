@@ -12,7 +12,6 @@ var session = require('express-session');
 var apiRouter = require('./api');
 var authRouter = require('./auth');
 var salt = require('./config').salt;
-var fs = require('fs');
 
 //mongoose connect
 mongoose.connect('mongodb://localhost/smart-copy');
@@ -51,35 +50,16 @@ app.get('*', function(req, res, next) {
 
 // start app ===============================================
 // startup our app at http://localhost:8080
-app.listen(port);
+app.listen(port, function (err) {
+    if (err) {
+        console.log(err);
+    }
 
-// shoutout to the user                     
-console.log('Magic happens on port ' + port);
+    console.log('Magic happens on port ' + port);
 
-//insert dummy_user profile picture
-var uploadFolder = process.env.UPLOAD_PATH;
-if (!fs.existsSync(uploadFolder)) {
-    console.log('creating upload directory');
-    fs.mkdirSync(uploadFolder);
-}
+    require('./dummyUpload')();
+});
 
-if (!fs.readdirSync(uploadFolder).length) {
-    var Upload = require('./api/upload/upload.model');
-    var srcPath = './image/dummy_user.png';
-    var targetPath = path.resolve(uploadFolder, 'dummy_user.png');
-
-    fs.link(srcPath, targetPath, function(err) {
-        if (err) {
-            return console.error(err.toString());
-        }
-
-        targetPath = targetPath.substring(targetPath.indexOf('upload'));
-        Upload.createUpload(targetPath)
-            .catch(function(err) {
-                console.error(err.toString());
-            });
-    });
-}
 
 // expose app           
 exports = module.exports = app;
