@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit {
             });
 
         self.authService.getUserDetails().subscribe(isSuccessfull => {
-            debugger;
             if(isSuccessfull) {
                 self.router.navigateByUrl('/dashboard');
             }
