@@ -29,21 +29,21 @@ class User {
 
 @Injectable()
 export class UserService {
-    userBehaviousSubject: BehaviorSubject<User>;
+    userBehaviourSubject: BehaviorSubject<User>;
     apiUrl: string = '/api/user';
 
     constructor(private http: Http) {
-        this.userBehaviousSubject = new BehaviorSubject<User>(new User(null, null, null));
+        this.userBehaviourSubject = new BehaviorSubject<User>(new User(null, null, null));
     }
 
-    setUser(username, email, profilePciture) {
-        let user:User = new User(username, email, profilePciture);
-        this.userBehaviousSubject.next(user);
+    setUser(username, email, profilePicture) {
+        let user:User = new User(username, email, profilePicture);
+        this.userBehaviourSubject.next(user);
     }
 
     getUser(): Observable<User> {
         return this
-            .userBehaviousSubject
+            .userBehaviourSubject
             .asObservable()
             .share()
             .distinctUntilChanged();
