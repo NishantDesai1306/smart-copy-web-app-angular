@@ -4,4 +4,4 @@ dist/
 node_modules/
 typings/
 mongo.bat
-upload/
+/upload
