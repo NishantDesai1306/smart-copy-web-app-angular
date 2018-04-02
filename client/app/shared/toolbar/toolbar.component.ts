@@ -7,8 +7,30 @@ import {AuthService} from '../auth.service';
 export class ToolbarComponent implements OnInit {
 
     user : any;
+    downloadLinks:any = {
+        android: {
+            name: 'smart-copy-app.apk',
+            url: '/app/android/smart-copy-app.apk'
+        }
+    }
 
     constructor(private userService : UserService, private authService : AuthService, private router : Router) {}
+
+    ngOnInit() {
+        this.userService.getUser()
+        .subscribe((newUser) => {
+            this.user = newUser;
+        });
+    }
+
+    downloadApp(platform) {
+        const link = document.createElement("a");
+        const info = this.downloadLinks[platform];
+
+        link.download = info.name;
+        link.href = info.url;
+        link.click();
+    }
 
     logout() {
         this.authService.logout()
@@ -22,13 +44,6 @@ export class ToolbarComponent implements OnInit {
             }
         }, (err) => {
             console.error(err);
-        });
-    }
-
-    ngOnInit() {
-        this.userService.getUser()
-        .subscribe((newUser) => {
-            this.user = newUser;
         });
     }
 }

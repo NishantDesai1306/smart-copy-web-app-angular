@@ -1,12 +1,24 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
+    <img src="/images/icon.png" alt="logo" style="height: 50px;" class="mr1">
+    
     <span>
         <a style="color: white; text-decoration: none;" [routerLink]="['/home']">Smart Copy</a>
     </span>
 
     <span class="toolbar-spacer"></span>
 
-    <button matTooltip="Dashboard" routerLink='/dashboard' class="p3" *ngIf="user && user.getUsername()" mat-icon-button>
-        <mat-icon>dashboard</mat-icon>
+    <button matTooltip="Download Mobile Apps" mat-icon-button *ngIf="user && user.getUsername()" [matMenuTriggerFor]="downloadMenu">
+        <mat-icon>cloud_download</mat-icon>
+    </button>
+    <mat-menu #downloadMenu="matMenu">
+        <button mat-menu-item (click)="downloadApp('android')">
+            <mat-icon>android</mat-icon>
+            <span>Android</span>
+        </button>
+    </mat-menu>
+
+    <button matTooltip="Refresh" class="p3" *ngIf="user && user.getUsername()" mat-icon-button>
+        <mat-icon>refresh</mat-icon>
     </button>
 
     <button *ngIf="user && user.getUsername()" mat-button [matMenuTriggerFor]="menu">
