@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { UserService } from './../../../shared/user.service';
 import { NotificationService } from '../../../shared/notification.service';
 import { FormControl, Validators } from '@angular/forms';
-import { RequiredStateMatcher } from '../../../shared/required-state-matcher';
 
 @Component({
     templateUrl: './change-password.component.html'
@@ -12,16 +11,12 @@ export class ChangePasswordComponent implements OnInit {
 
     user: any = null;
 
-    newPasswordMatchError = '';
-
     oldPasswordControl = new FormControl('', [
         Validators.required
     ]);
     newPasswordControl = new FormControl('', [
         Validators.required
     ]);
-    
-    matcher = new RequiredStateMatcher();
     
     constructor(
         private userService: UserService, 
@@ -36,14 +31,14 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     changePassword() {
-        this.newPasswordMatchError = '';
-
         if (this.user.newPassword !== this.user.confirmNewPassword) {
-            this.newPasswordMatchError = 'New Password and Confirm New Password must match';
+            this.notificationService.createSimpleNotification('New Password and Confirm New Password must match');
+            return;
         }
 
-        if (this.newPasswordMatchError) {
-            return;
+        if (this.oldPasswordControl.invalid || this.newPasswordControl.invalid) {
+            this.notificationService.createSimpleNotification('New Password details are not complete');
+            return;            
         }
 
         this.userService

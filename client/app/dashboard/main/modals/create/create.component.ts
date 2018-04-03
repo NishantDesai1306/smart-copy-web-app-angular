@@ -1,4 +1,3 @@
-import { RequiredStateMatcher } from './../../../../shared/required-state-matcher';
 import { FormControl, Validators } from '@angular/forms';
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
@@ -11,8 +10,6 @@ export class CreateCopiedItemModalComponent {
     copiedItemControl = new FormControl('', [
         Validators.required
     ]);
-    
-    matcher = new RequiredStateMatcher();
 
     constructor(
         public dialogRef : MatDialogRef < CreateCopiedItemModalComponent >,

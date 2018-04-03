@@ -1,8 +1,8 @@
+import { NotificationService } from './../../shared/notification.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../shared/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { RequiredStateMatcher } from '../../shared/required-state-matcher';
 
 @Component({
     templateUrl: './register.component.html'
@@ -27,15 +27,14 @@ export class RegisterComponent implements OnInit {
     passwordControl = new FormControl('', [
         Validators.required
     ]);
-    
-    matcher = new RequiredStateMatcher();
 
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private authService: AuthService, private router: Router, private notificationService: NotificationService) { }
 
     register() {
         this.passwordError = this.user.password !== this.user.confirmPassword ? 'Password and Confirm Password must match' : '';
 
-        if (this.passwordError) {
+        if (this.passwordError || this.emailControl.invalid || this.usernameControl.invalid || this.passwordControl.invalid) {
+            this.notificationService.createSimpleNotification('User details are incomplete');            
             return;
         }
 

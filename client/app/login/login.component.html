@@ -15,7 +15,7 @@
             </mat-card-header>
             <mat-card-content>
                 <mat-form-field class="white-input mt1 width-100">
-                    <input matInput [formControl]="emailControl" [errorStateMatcher]="matcher" placeholder="Username" [(ngModel)]="user.email">
+                    <input matInput [formControl]="emailControl" placeholder="Username" [(ngModel)]="user.email">
                     <mat-error class="with-icon white-text-color" *ngIf="!user.email">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>
@@ -27,7 +27,7 @@
                 </mat-form-field>
                 
                 <mat-form-field class="white-input mt1 width-100" hintLabel="{{passwordError}}">
-                    <input matInput [formControl]="passwordControl" [errorStateMatcher]="matcher" placeholder="Password" type="password" [(ngModel)]="user.password">
+                    <input matInput [formControl]="passwordControl" placeholder="Password" type="password" [(ngModel)]="user.password">
                     <mat-error class="with-icon white-text-color" *ngIf="!user.password">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>

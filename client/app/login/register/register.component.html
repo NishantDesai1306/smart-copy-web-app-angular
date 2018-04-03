@@ -15,7 +15,7 @@
             </mat-card-header>
             <mat-card-content>
                 <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="emailControl" [errorStateMatcher]="matcher" [(ngModel)]="user.email" matInput placeholder="Email" type="email">
+                    <input [formControl]="emailControl" [(ngModel)]="user.email" matInput placeholder="Email" type="email">
                     <mat-error class="with-icon white-text-color" *ngIf="!user.email">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>
@@ -27,7 +27,7 @@
                 </mat-input-container>
         
                 <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="usernameControl" [errorStateMatcher]="matcher" [(ngModel)]="user.username" matInput placeholder="Username">
+                    <input [formControl]="usernameControl" [(ngModel)]="user.username" matInput placeholder="Username">
                     <mat-error class="with-icon white-text-color" *ngIf="!user.username">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>
@@ -39,7 +39,7 @@
                 </mat-input-container>
         
                 <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="passwordControl" [errorStateMatcher]="matcher" [(ngModel)]="user.password" matInput placeholder="Password" type="password">
+                    <input [formControl]="passwordControl" [(ngModel)]="user.password" matInput placeholder="Password" type="password">
                     <mat-error class="with-icon white-text-color" *ngIf="!user.password">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>

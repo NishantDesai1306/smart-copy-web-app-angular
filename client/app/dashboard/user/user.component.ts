@@ -1,4 +1,3 @@
-import { RequiredStateMatcher } from './../../shared/required-state-matcher';
 import {Component, OnInit, NgZone, Inject, EventEmitter, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import {NgUploaderOptions, UploadedFile, NgUploaderService} from 'ngx-uploader';
@@ -29,8 +28,6 @@ export class UserComponent implements OnInit {
         Validators.required
     ]);
     
-    matcher = new RequiredStateMatcher();
-
     constructor(
         private userService : UserService, 
         @Inject(NgZone)private zone : NgZone,
@@ -41,24 +38,20 @@ export class UserComponent implements OnInit {
         this.inputUploadEvent = new EventEmitter<string>();
     }
 
-    saveChanges() {
-        const self = this;
-        
-        self.error = '';
+    saveChanges() {        
+        this.error = '';
     
-        if (!self.user.username) {
-            return self.error = 'Username can`t be empty';
-        }
-        if (!self.user.email) {
-            return self.error = 'Email can`t be empty';
+        if (this.emailControl.invalid || this.usernameControl.invalid) {
+            this.notificationService.createSimpleNotification('User details are incomplete');
+            return;
         }
         
-        self.userService
-            .changeDetails(self.user.username, self.user.email)
+        this.userService
+            .changeDetails(this.user.username, this.user.email)
             .subscribe(res => {
                 if (res.status) {
-                    self.loading = false;
-                    self.router.navigateByUrl('/dashboard');
+                    this.loading = false;
+                    this.router.navigateByUrl('/dashboard');
                     this.notificationService.createSimpleNotification('Changes are saved');
                 } else {
                     this.error = res.reason;
@@ -102,12 +95,11 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
-        const self = this;
-        self
+        this
             .userService
             .getUser()
             .subscribe(user => {
-                self.user = Object.assign({}, user);
+                this.user = Object.assign({}, user);
             });
 
         this.uploaderOptions = new NgUploaderOptions({

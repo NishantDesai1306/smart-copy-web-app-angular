@@ -34,7 +34,7 @@
                 </div>
 
                 <mat-form-field class="white-input width-100 mt1">
-                    <input [formControl]="usernameControl" [errorStateMatcher]="matcher" matInput placeholder="Username" [(ngModel)]="user.username">
+                    <input [formControl]="usernameControl" matInput placeholder="Username" [(ngModel)]="user.username">
                     <mat-error class="with-icon white-text-color" *ngIf="!user.username">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>
@@ -46,7 +46,7 @@
                 </mat-form-field>
 
                 <mat-form-field class="white-input width-100 mt1">
-                    <input [formControl]="emailControl" [errorStateMatcher]="matcher" matInput type="email" placeholder="Email" [(ngModel)]="user.email">
+                    <input [formControl]="emailControl" matInput type="email" placeholder="Email" [(ngModel)]="user.email">
                     <mat-error class="with-icon white-text-color" *ngIf="!user.email">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>

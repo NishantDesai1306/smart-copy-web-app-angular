@@ -5,11 +5,10 @@ import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import { NotificationService } from '../shared/notification.service';
 import { FormControl, Validators } from '@angular/forms';
-import { RequiredStateMatcher } from '../shared/required-state-matcher';
 
 @Component({selector: 'login', templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
-    error : string;
+    error: string = '';
     user : any = {
         email: "",
         password: ""
@@ -22,8 +21,6 @@ export class LoginComponent implements OnInit {
     passwordControl = new FormControl('', [
         Validators.required
     ]);
-    
-    matcher = new RequiredStateMatcher();
 
     constructor(
         private authService : AuthService, 
@@ -34,43 +31,35 @@ export class LoginComponent implements OnInit {
     ) {}
 
     login() {
-        let self = this;
-
-        self.error = "";
-        if (!self.user.email) {
-            return self.error = "Email can't be empty"
-        }
-        if (!self.user.password) {
-            return self.error = "Password can't be empty"
+        if (this.emailControl.invalid || this.passwordControl.invalid) {
+            this.notificationService.createSimpleNotification('Login details are incomplete');
+            return;
         }
 
-        self.authService
-            .login(self.user.email, self.user.password, self.rememberMe)
+        this.authService
+            .login(this.user.email, this.user.password, this.rememberMe)
             .subscribe(({status, reason}) => {
                 if (status) {
-                    self.router.navigateByUrl('/dashboard')
+                    this.router.navigateByUrl('/dashboard')
                 } else {
                     console.error('error occurred while login', reason);
-                    self.notificationService.createSimpleNotification(reason && reason.message);
+                    this.notificationService.createSimpleNotification(reason && reason.message);
                 }
             }, (err) => {
                 console.log(err);
-                self.error = err;
             });
     }
 
     ngOnInit() {
-        var self = this;
-
-        self.route
+        this.route
             .queryParams
             .subscribe(params => {
-                self.error = params['errorMessage'] || '';
+                this.error = params['errorMessage'] || '';
             });
 
-        self.authService.getUserDetails().subscribe(isSuccessfull => {
+        this.authService.getUserDetails().subscribe(isSuccessfull => {
             if(isSuccessfull) {
-                self.router.navigateByUrl('/dashboard');
+                this.router.navigateByUrl('/dashboard');
             }
         });
     }
