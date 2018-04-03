@@ -11,7 +11,7 @@ export class DeleteCopiedItemModalComponent {
         @Inject(MAT_DIALOG_DATA)public item : any
     ) {
         if (item.value && item.value.length >= 50) {
-            item.value = item.slice(0, 50) + '...';
+            item.value = item.value.slice(0, 50) + '...';
         }
     }
 
