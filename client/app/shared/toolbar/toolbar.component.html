@@ -1,7 +1,5 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
-    <a class="flex" href="/">
-        <img src="/images/icon.png" alt="logo" style="height: 50px;" class="mr1">
-    </a>
+    <img src="/images/icon.png" alt="logo" style="height: 50px;" class="cursor-pointer mr1" (click)="router.navigate(['/dashboard/main']);">
     
     <span>
         <a style="color: white; text-decoration: none;" [routerLink]="['/home']">Smart Copy</a>
