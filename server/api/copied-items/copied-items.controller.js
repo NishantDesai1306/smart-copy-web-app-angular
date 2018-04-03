@@ -3,24 +3,28 @@ var _ = require('lodash');
 var CopiedItem = require("./copied-items.model");
 
 exports.getCopiedItems = function (req, res, next) {
+    var userId = req.user && req.user._id;
 
-    CopiedItem.getCopiedItems(req.params.user)
+    CopiedItem.getCopiedItems(userId)
     .then(function (copiedItems) {
-        res.json({ status: true, copiedItems: copiedItems });
+        res.json({ status: true, data: copiedItems });
     })
     .catch(function(err) {
         console.log(err);
-        res.json({ status: false, reason: err });
+        res.json({
+            status: false,
+            reason: err.message || err.toString()
+        });
     });
 };
 
 exports.upsertCopiedItem = function (req, res, next) {
-    var user = req.params.user;
+    var userId = req.user && req.user._id;
     var copiedItemValue = req.body.value;
     var copiedItemId = req.body._id;
 
     if (copiedItemId) {
-        CopiedItem.getCopiedItem(user, copiedItemId)
+        CopiedItem.getCopiedItem(userId, copiedItemId)
         .then(function (copiedItem) {
 
             if (copiedItem) {
@@ -31,57 +35,67 @@ exports.upsertCopiedItem = function (req, res, next) {
                     copiedItem.save(function (err) {
                         if (err) {
                             console.log(err);
-                            res.json({ status: false, reason: err });
+                            return res.json({
+                                status: false,
+                                reason: err.message || err.toString()
+                            });
                         }
-                        else {
-                            res.json({ status: true, data: _.omit(copiedItem, ['user', '__v'])});
-                        }
+                        
+                        res.json({
+                            status: true,
+                            data: _.omit(copiedItem, ['user', '__v'])
+                        });
                     });
                 }
             }
             else {
-                CopiedItem.upsertCopiedItem(user, copiedItemValue, copiedItemId)
+                CopiedItem.upsertCopiedItem(userId, copiedItemValue, copiedItemId)
                 .then(function (copiedItem) {
                     return res.json({
                         status: true,
-                        data: _.omit(data, ['user', '__v'])
+                        data: _.omit(copiedItem, ['user', '__v'])
                     });
                 })
                 .catch(function (err) {
                     return res.json({
                         status: false,
-                        reason: err
+                        reason: err.message || err.toString()
                     });
                 });
             }
         })
         .catch(function (err) {
             console.log(err);
-            res.json({ status: false, reason: err });
+            res.json({
+                status: false,
+                reason: err.message || err.toString()
+            });
         });
     }
     else {
-        CopiedItem.upsertCopiedItem(user, copiedItemValue, copiedItemId)
+        CopiedItem.upsertCopiedItem(userId, copiedItemValue, copiedItemId)
         .then(function (copiedItem) {
             return res.json({
                 status: true,
-                data: _.omit(data, ['user', '__v'])
+                data: _.omit(copiedItem, ['user', '__v'])
             });
         })
         .catch(function (err) {
+            console.log(err);
+
             return res.json({
                 status: false,
-                reason: err
+                reason: err.message || err.toString()
             });
         });
     }
 };
 
 exports.deleteCopiedItem = function (req, res, next) {
-    var user = req.params.user;
+    var userId = req.user && req.user._id;
     var removeCopiedItem = req.body;
 
-    CopiedItem.getCopiedItem(user, removeCopiedItem._id, false)
+    CopiedItem.getCopiedItem(userId, removeCopiedItem._id, false)
     .then(function (copiedItem) {
         if (!copiedItem) {
             return res.json({ 
@@ -97,7 +111,7 @@ exports.deleteCopiedItem = function (req, res, next) {
 
                     return res.json({
                         status: false,
-                        reason: err
+                        reason: err.message || err.toString()
                     });
                 }
                 
@@ -115,7 +129,7 @@ exports.deleteCopiedItem = function (req, res, next) {
 
                     return res.json({
                         status: false,
-                        reason: err
+                        reason: err.message || err.toString()
                     });
                 }
                 
@@ -130,7 +144,7 @@ exports.deleteCopiedItem = function (req, res, next) {
 
         return res.json({
             status: false,
-            reason: err
+            reason: err.message || err.toString()
         });
     });
 };

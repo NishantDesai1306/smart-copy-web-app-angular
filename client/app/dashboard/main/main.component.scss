@@ -1,0 +1,31 @@
+@import './modals/create/create.component.scss';
+@import './modals/update/update.component.scss';
+@import './modals/delete/delete.component.scss';
+
+.main-fab {
+    position: fixed !important;
+    bottom: 75px;
+    right: 150px;
+}
+
+.white-background {
+    background: white;
+}
+
+.avatar {
+    position: relative;
+    top: -4px;
+}
+
+mat-list.copied-item-list {
+    padding: 0;
+}
+
+.copied-item-list-content {
+    position: relative;
+    top: -2px;
+}
+
+.pull-right {
+    float: right;
+}

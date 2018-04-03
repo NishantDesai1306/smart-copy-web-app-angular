@@ -9,7 +9,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {LoginComponent} from './login.component';
 import {LoginRoutingModule} from './login.routing';
-import { MaterialModule } from '../shared/material.module';
 import { getAuthServiceConfigs } from './AuthService.config';
 
 import {
@@ -23,11 +22,10 @@ import {
     imports: [
         BrowserModule, 
         FormsModule, 
+        BrowserAnimationsModule,
+        
         LoginRoutingModule,
         SharedModule,
-
-        MaterialModule,
-        BrowserAnimationsModule,
 
         SocialLoginModule
     ],

@@ -1,3 +1,4 @@
+import { CopiedItemService } from './../copied-item.service';
 import {Router} from '@angular/router';
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../user.service';
@@ -13,13 +14,27 @@ export class ToolbarComponent implements OnInit {
             url: '/app/android/smart-copy-app.apk'
         }
     }
+    loading: boolean = false;
 
-    constructor(private userService : UserService, private authService : AuthService, private router : Router) {}
+    constructor(
+        private userService : UserService,
+        private authService : AuthService,
+        private copiedItemService: CopiedItemService,
+        private router : Router
+    ) {}
 
     ngOnInit() {
         this.userService.getUser()
         .subscribe((newUser) => {
             this.user = newUser;
+        });
+    }
+
+    reloadList() {
+        this.loading = true;
+
+        this.copiedItemService.loadItems().subscribe(() => {
+            this.loading = false;
         });
     }
 

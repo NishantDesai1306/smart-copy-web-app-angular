@@ -5,27 +5,23 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { NgUploaderModule } from 'ngx-uploader';
 
-import { LoginModule } from './login/login.module';
-
-import { AppComponent }  from './app.component';
-import { AppRoutingModule } from './app.routing';
-import { DashboardModule } from './dashboard/dashboard.module';
+import { SharedModule } from './../../shared/shared.module';
+import { UserComponent } from './user.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   imports: [ 
     BrowserModule,
-    AppRoutingModule,
     HttpModule,
     RouterModule,
+    SharedModule,
     FormsModule,
-
-    DashboardModule,
-    LoginModule,
+    NgUploaderModule
   ],
   declarations: [ 
-    AppComponent,
+    UserComponent,
+    ChangePasswordComponent
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  bootstrap: [ AppComponent ]
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class AppModule { }
+export class UserModule { }

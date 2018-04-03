@@ -1,7 +1,7 @@
-import { UserService } from './../../shared/user.service';
 import { Component, OnInit } from '@angular/core';
-import { NotificationService } from '../../shared/notification.service';
 import { Router } from '@angular/router';
+import { UserService } from './../../../shared/user.service';
+import { NotificationService } from '../../../shared/notification.service';
 
 @Component({
     templateUrl: './change-password.component.html'

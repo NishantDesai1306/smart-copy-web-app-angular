@@ -1,8 +1,65 @@
-<div class="clearfix pt4">
-    <div class="col col-3"></div>
-    <div class="col col-6 flex justify-center">
-        <div>
-            <h2>Welcome <strong>{{username}}</strong> to Angular 5 Starter</h2>
+<div class="clearfix">
+    <div class="col col-2">&nbsp;</div>
+    <div class="col col-8 flex justify-center">
+        <div *ngIf="loadingData" class="loader-spinner loader-large" style="position: absolute; top: 35%; left: 48%;">
+            <div class="loader-spinner-wrapper">
+                <div class="loader-rotator">
+                    <div class="loader-inner-spin"></div>
+                    <div class="loader-inner-spin"></div>
+                </div>
+            </div>
+        </div>  
+
+        <div *ngIf="!loadingData" class="width-100">
+            <mat-list class="width-100 copied-item-list" *ngIf="copiedItems && copiedItems.length">
+                <mat-list-item class="white-background mat-elevation-z1" *ngFor="let copiedItem of copiedItems">
+                    <div class="copied-item-list-content clearfix width-100 flex items-center">
+                        <div class="col mr3">
+                            <div class="flex items-center">
+                                <avatar class="avatar" matListIcon [background]="'#1E88E5'" [size]="40" [name]="copiedItem.value" [displayType]="'circle'"></avatar>
+                            </div>
+                        </div>
+
+                        <div class="col col-12">
+                            <p matLine>
+                                <span> {{copiedItem.value}} </span>
+                            </p>
+
+                            <p matLine class="m0"></p>
+                        </div>
+
+                        <div class="col col-1">
+                            <button class="pull-right" mat-icon-button [matMenuTriggerFor]="menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="onUpdateItem(copiedItem._id)">
+                                    <mat-icon>mode_edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item (click)="onDeleteItem(copiedItem._id)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+
+                </mat-list-item>
+            </mat-list>
+    
+            <div class="mt4 flex justify-center items-center" *ngIf="!copiedItems || !copiedItems.length">
+                <div class="mr3">
+                    <mat-icon style="font-size: 45px;" class="disabled-text">sentiment_very_dissatisfied</mat-icon>
+                </div>
+                <div>
+                    <h2 style="margin: 0;" class="mat-display-1 disabled-text">No Items found</h2>
+                </div>
+            </div>
+    
+            <button matTooltip="Add Item" mat-fab class="main-fab" color="primary" (click)="onAddItem()">
+                <mat-icon>add</mat-icon>
+            </button>
         </div>
     </div>
 </div>

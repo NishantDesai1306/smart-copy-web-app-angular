@@ -1,21 +1,23 @@
+var _ = require('lodash');
 var Q = require('q');
 var mongoose = require('mongoose');
 
 var CopiedItemSchema = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
-        require: false
+        required: false
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        require: true
+        required: true
     },
     value: {
         type: String,
-        require: true
+        required: true
     },
     createdAt: Number,
+    updatedAt: Number,
     isDeleted: {
         type: Boolean,
         default: false
@@ -45,7 +47,7 @@ CopiedItemSchema.statics = {
         var defer = Q.defer();
 
         model.findOne({ 
-            _id: userId,
+            _id: copiedItemId,
             user: userId,
             isDeleted: isDeleted
         }, function (err, copiedItem) {
@@ -61,28 +63,55 @@ CopiedItemSchema.statics = {
     upsertCopiedItem: function (user, copiedItemValue, copiedItemId) {
         var model = this;
         var defer = Q.defer();
-        var copiedItem = {
+        var copiedItemInstance = null;
+        var newCopiedItem = {
             user: user,
             value: copiedItemValue,
-            createdAt: new Date().getTime(),
-            _id: null
+            updatedAt: new Date().getTime()
         };
 
-        if (copiedItemId) {
-            copiedItem._id = copiedItemId;
-        }
-        else {
-            copiedItem._id = new mongoose.Types.ObjectId();
-        }
+        Q.when()
+        .then(function () {
+            var copiedItemDefer = Q.defer();
 
-        var copiedItemInstance = new model(copiedItem);
-        
-        copiedItemInstance.save(function (err) {
-            if (err) {
-                return defer.reject(err);
+            if (copiedItemId) {
+                model.findOne({_id: copiedItemId}, function (err, copiedItem) {
+                    if (err) {
+                        return copiedItemDefer.reject(err);
+                    }
+
+                    copiedItem = _.assign(copiedItem, newCopiedItem);
+
+                    copiedItemDefer.resolve(copiedItem);
+                });
+            }
+            else {
+                copiedItem.createdAt = newCopiedItem.updatedAt;
+
+                copiedItemDefer.resolve(new model(newCopiedItem));
             }
 
+            return copiedItemDefer.promise;
+        })
+        .then(function (copiedItemInstance) {
+            var saveDefer = Q.defer();
+
+            copiedItemInstance.save(function (err) {
+                if (err) {
+                    return saveDefer.reject(err);
+                }
+    
+                return saveDefer.resolve(copiedItemInstance);
+            });
+
+            return saveDefer.promise;
+        })
+        .then(function (copiedItemInstance) {
             return defer.resolve(copiedItemInstance);
+        })
+        .catch(function (err) {
+            console.log('error', err)
+            return defer.reject(err);
         });
 
         return defer.promise;

@@ -43,7 +43,6 @@ exports.login = function(req, res) {
                 res.cookie('remember_me', tokenObj.token, { path: '/', httpOnly: true, maxAge: 604800000 });
             }
 
-            console.log('here');
             res.json({
                 status: true,
                 data: {

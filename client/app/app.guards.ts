@@ -5,11 +5,10 @@ import { CanActivate, Router, NavigationExtras } from '@angular/router';
 @Injectable()
 export class DashboardCanActivateGuard implements CanActivate {
 
-    
-    constructor(private authSerivce: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
     canActivate(): boolean {
-        if(this.authSerivce.isUserLoggedIn()) {
+        if(this.authService.isUserLoggedIn()) {
             return true;
         }
         else {

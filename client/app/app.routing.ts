@@ -1,10 +1,11 @@
-import { ChangePasswordComponent } from './dashboard/change-password/change-password.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+
+import { ChangePasswordComponent } from './dashboard/user/change-password/change-password.component';
 import { UserComponent } from './dashboard/user/user.component';
 import { MainComponent } from './dashboard/main/main.component';
 import { DashboardCanActivateGuard } from './app.guards';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
 
 const appRoutes: Routes = [
     {
@@ -14,8 +15,8 @@ const appRoutes: Routes = [
         children: [
             {path: '', redirectTo: '/dashboard/main', pathMatch: 'full'},
             {path: 'main', component: MainComponent},
+            {path: 'change-password', component: ChangePasswordComponent},
             {path: 'user', component: UserComponent},
-            {path: 'change-password', component: ChangePasswordComponent}
         ]
     },
     {path: '', redirectTo: '/login', pathMatch: 'full'}

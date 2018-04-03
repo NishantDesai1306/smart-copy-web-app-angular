@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Update Copied Item</h1>
+<div mat-dialog-content class="container">
+    <mat-form-field class="value-input-control">
+        <textarea cdkFocusInitial [(ngModel)]="item.value" rows="7" matInput placeholder="Copied Item"></textarea>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <div class="clearfix width-100">
+        <div class="col col-6">
+            <button class="mr2 width-100" mat-button (click)="onCancel()">Cancel</button>        
+        </div>
+
+        <div class="col col-6">
+            <button class="width-100" mat-button [mat-dialog-close]="item.value" color="primary">Update</button>
+        </div>
+    </div>
+</div>

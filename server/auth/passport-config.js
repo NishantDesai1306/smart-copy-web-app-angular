@@ -94,7 +94,6 @@ exports.setupPassport = function(passport) {
                         });
                 })
                 .catch(function(err) {
-                    console.log('here');
                     done(err);
                 });
         },
@@ -106,7 +105,6 @@ exports.setupPassport = function(passport) {
     });
 
     passport.deserializeUser(function(id, done) {
-        console.log('desrializong id')
         User.getUserById(id)
         .then(function(user) {
             done(null, user);

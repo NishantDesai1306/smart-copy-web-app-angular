@@ -17,8 +17,9 @@
         </button>
     </mat-menu>
 
-    <button matTooltip="Refresh" class="p3" *ngIf="user && user.getUsername()" mat-icon-button>
-        <mat-icon>refresh</mat-icon>
+    <button matTooltip="{{loading ? 'Loading...' : 'Refresh'}}" class="p3" *ngIf="user && user.getUsername()" mat-icon-button (click)="reloadList()">
+        <mat-icon *ngIf="!loading">refresh</mat-icon>
+        <mat-spinner class="item-loader" *ngIf="loading"></mat-spinner>
     </button>
 
     <button *ngIf="user && user.getUsername()" mat-button [matMenuTriggerFor]="menu">

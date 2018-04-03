@@ -16,20 +16,24 @@
     background-color: white !important;
 }
 
-$logo-height: 80px;
 div.logo-container {
+    $logo-height: 80px;
+    $rim-padding: 10px;
+    $total-height: ($logo-height + 2*$rim-padding);
+
     position: absolute;
     left: 0;
-    top: -$logo-height/2;
+    top: -$total-height/2;
 
     img.logo {
         display: block;
         margin-left: auto;
         height: $logo-height;
         margin-right: auto;
-        padding: 8px;
-        border-radius: $logo-height/2;
+        padding: $rim-padding;
+        border-radius: $total-height/2;
     }
+
 }
 
 %social-login-button {
