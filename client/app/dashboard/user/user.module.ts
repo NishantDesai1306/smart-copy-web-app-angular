@@ -1,4 +1,4 @@
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -16,6 +16,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     RouterModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     NgUploaderModule
   ],
   declarations: [ 

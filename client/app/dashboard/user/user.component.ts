@@ -1,9 +1,11 @@
+import { RequiredStateMatcher } from './../../shared/required-state-matcher';
 import {Component, OnInit, NgZone, Inject, EventEmitter, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import {NgUploaderOptions, UploadedFile, NgUploaderService} from 'ngx-uploader';
 
 import {UserService} from './../../shared/user.service';
 import { NotificationService } from '../../shared/notification.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({templateUrl: './user.component.html'})
 export class UserComponent implements OnInit {
@@ -19,6 +21,15 @@ export class UserComponent implements OnInit {
     uploadPromise: Promise<string>;
 
     loading: boolean = false;
+
+    emailControl = new FormControl('', [
+        Validators.required
+    ]);
+    usernameControl = new FormControl('', [
+        Validators.required
+    ]);
+    
+    matcher = new RequiredStateMatcher();
 
     constructor(
         private userService : UserService, 

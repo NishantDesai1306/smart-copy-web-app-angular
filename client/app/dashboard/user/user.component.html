@@ -1,19 +1,19 @@
-<div class="clearfix pt4">
-    <div class="col col-4">&nbsp;</div>
-    <div class="col col-4">
-        <mat-card class="indigo-background-color">
-            <mat-card-header class="flex justify-center items-center">
-                <div style="margin-top: 5px;">
-                    <mat-icon class="white-text-color mr1 font-size-30" style="height: 100%;">account_circle</mat-icon>
+<div class="clearfix pt2">
+    <div class="col col-3">&nbsp;</div>
+    <div class="col col-6">
+        <mat-card class="m4 indigo-background-color">
+            <div class="width-100 logo-container">
+                <img src="/images/icon.png" alt="logo" class="logo indigo-background-color" >
+            </div>
+            <mat-card-header class="mt3 mb2 flex justify-center items-center">
+                <div class="mr2" style="margin-top: -3px;">
+                    <mat-icon class="white-text-color mr1 font-size-40" style="height: 100%;">account_circle</mat-icon>
                 </div>
-
                 <div>
-                    <h2 class="white-text-color my0">
-                        User Details
-                    </h2>
+                    <h1 class="white-text-color my1 mb2">Account Details</h1>
                 </div>
             </mat-card-header>
-            <mat-card-content class="mt2">
+            <mat-card-content>
                 <div class="avatar-100-image-overlay-wrapper flex justify-center">
                     <div class="avatar-100" class="avatar-100 avatar-100-image-overlay white-text-color">
                         <input type="file" id="profile-picture" ngFileSelect [options]="uploaderOptions" [events]="inputUploadEvent" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)" (onPreviewData)="handlePreviewData($event)">
@@ -29,24 +29,39 @@
                 </div>
 
                 <div class="mt1 mb2" *ngIf="!!uploadProgress">
-                    {{uploadProgress}}
                     <mat-progress-bar class="white-progress-bar" [color]="primary" [mode]="determinate" [value]="uploadProgress">
                     </mat-progress-bar>
                 </div>
 
-                <mat-form-field class="white-input width-100 mt1" hintLabel="{{usernameError}}">
-                    <input matInput placeholder="Username" [(ngModel)]="user.username">
+                <mat-form-field class="white-input width-100 mt1">
+                    <input [formControl]="usernameControl" [errorStateMatcher]="matcher" matInput placeholder="Username" [(ngModel)]="user.username">
+                    <mat-error class="with-icon white-text-color" *ngIf="!user.username">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            New Username cannot be empty
+                        </div>
+                    </mat-error>
                 </mat-form-field>
 
-                <mat-form-field class="white-input width-100 mt1" hintLabel="{{emailError}}">
-                    <input matInput type="email" placeholder="Email" [(ngModel)]="user.email">
+                <mat-form-field class="white-input width-100 mt1">
+                    <input [formControl]="emailControl" [errorStateMatcher]="matcher" matInput type="email" placeholder="Email" [(ngModel)]="user.email">
+                    <mat-error class="with-icon white-text-color" *ngIf="!user.email">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            New Email cannot be empty
+                        </div>
+                    </mat-error>
                 </mat-form-field>
-
-                <div class="clearfix">
-                    <div class="col col-12 p1">
+                
+                <div class="clearfix mt3">
+                    <div class="col col-6 px3">
                         <button class="width-100" mat-raised-button (click)="saveChanges()">Save Changes</button>
                     </div>
-                    <div class="col col-12 p1">
+                    <div class="col col-6 px3">
                         <button class="width-100" routerLink="/dashboard/change-password" mat-raised-button>Change Password</button>
                     </div>
                 </div>

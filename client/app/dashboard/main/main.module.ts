@@ -1,5 +1,5 @@
 import { DeleteCopiedItemModalComponent } from './modals/delete/delete.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -19,6 +19,7 @@ import { UpdateCopiedItemModalComponent } from './modals/update/update.component
     RouterModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
 
     AvatarModule.forRoot()
   ],

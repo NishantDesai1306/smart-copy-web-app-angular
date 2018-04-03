@@ -9,7 +9,11 @@ export class DeleteCopiedItemModalComponent {
     constructor(
         public dialogRef : MatDialogRef < DeleteCopiedItemModalComponent >,
         @Inject(MAT_DIALOG_DATA)public item : any
-    ) {}
+    ) {
+        if (item.value && item.value.length >= 50) {
+            item.value = item.slice(0, 50) + '...';
+        }
+    }
 
     onCancel() : void {
         this

@@ -3,7 +3,7 @@ import { SharedModule } from './../shared/shared.module';
 import {RegisterComponent} from './register/register.component';
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -23,6 +23,7 @@ import {
         BrowserModule, 
         FormsModule, 
         BrowserAnimationsModule,
+        ReactiveFormsModule,
         
         LoginRoutingModule,
         SharedModule,

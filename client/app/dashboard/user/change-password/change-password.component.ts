@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from './../../../shared/user.service';
 import { NotificationService } from '../../../shared/notification.service';
+import { FormControl, Validators } from '@angular/forms';
+import { RequiredStateMatcher } from '../../../shared/required-state-matcher';
 
 @Component({
     templateUrl: './change-password.component.html'
@@ -10,9 +12,16 @@ export class ChangePasswordComponent implements OnInit {
 
     user: any = null;
 
-    newPasswordError = '';
     newPasswordMatchError = '';
-    oldPasswordError = '';
+
+    oldPasswordControl = new FormControl('', [
+        Validators.required
+    ]);
+    newPasswordControl = new FormControl('', [
+        Validators.required
+    ]);
+    
+    matcher = new RequiredStateMatcher();
     
     constructor(
         private userService: UserService, 
@@ -27,32 +36,22 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     changePassword() {
-        var self = this;
-        
-        self.oldPasswordError = '';
-        self.newPasswordError = '';
-        self.newPasswordMatchError = '';
+        this.newPasswordMatchError = '';
 
-        if (!self.user.oldPassword) {
-            self.oldPasswordError = 'Old Password can`t be empty';
-        }
-        if (!self.user.newPassword) {
-            self.newPasswordError = 'New Password can`t be empty';
-        }
-        if (self.user.newPassword !== self.user.confirmNewPassword) {
-            self.newPasswordMatchError = 'New Password and Confirm New Password must match';
+        if (this.user.newPassword !== this.user.confirmNewPassword) {
+            this.newPasswordMatchError = 'New Password and Confirm New Password must match';
         }
 
-        if (self.oldPasswordError || self.newPasswordError || self.newPasswordMatchError) {
+        if (this.newPasswordMatchError) {
             return;
         }
 
-        self.userService
-            .changePassword(self.user.oldPassword, self.user.newPassword)
+        this.userService
+            .changePassword(this.user.oldPassword, this.user.newPassword)
             .subscribe(res => {
                 if(res.status) {
                     this.notificationService.createSimpleNotification('Password Changed Successfully');
-                    self.router.navigateByUrl('/dashboard/user');
+                    this.router.navigateByUrl('/dashboard/user');
                 }
                 else {
                     console.error(res.reason);
@@ -61,9 +60,8 @@ export class ChangePasswordComponent implements OnInit {
     }
 
     ngOnInit() {
-        var self = this;
-        self.userService.getUser().subscribe(user => {
-            self.user = user;
+        this.userService.getUser().subscribe(user => {
+            this.user = user;
         });
      }
 }

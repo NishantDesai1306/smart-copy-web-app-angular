@@ -1,29 +1,59 @@
-<div class="clearfix">
-    <div class="col col-4"></div>
-    <div class="col col-4">
-        <mat-card class="mt4 indigo-background-color">
-            <mat-card-header>
+<div class="clearfix pt1">
+    <div class="col col-3">&nbsp;</div>
+    <div class="col col-6">
+        <mat-card class="m4 indigo-background-color">
+            <div class="width-100 logo-container">
+                <img src="/images/icon.png" alt="logo" class="logo indigo-background-color" >
+            </div>
+            <mat-card-header class="mt3 mb2 flex justify-center items-center">
+                <div class="mr2">
+                    <mat-icon style="font-size: 35px;" class="white-text-color">person_add</mat-icon>
+                </div>
                 <div>
                     <h2 class="white-text-color">Register</h2>
                 </div>
             </mat-card-header>
-            <mat-card-content class="ml2">
-                <mat-input-container class="white-input mt2 width-100" hintLabel="{{emailError}}">
-                    <input [(ngModel)]="user.email" matInput placeholder="Email" type="email">
-                </mat-input-container>
-        
-                <mat-input-container class="white-input mt2 width-100" hintLabel="{{usernameError}}">
-                    <input [(ngModel)]="user.username" matInput placeholder="Username">
+            <mat-card-content>
+                <mat-input-container class="white-input mt2 width-100">
+                    <input [formControl]="emailControl" [errorStateMatcher]="matcher" [(ngModel)]="user.email" matInput placeholder="Email" type="email">
+                    <mat-error class="with-icon white-text-color" *ngIf="!user.email">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            Email cannot be empty
+                        </div>
+                    </mat-error>
                 </mat-input-container>
         
                 <mat-input-container class="white-input mt2 width-100">
-                    <input [(ngModel)]="user.password" matInput placeholder="Password" type="password">
+                    <input [formControl]="usernameControl" [errorStateMatcher]="matcher" [(ngModel)]="user.username" matInput placeholder="Username">
+                    <mat-error class="with-icon white-text-color" *ngIf="!user.username">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            Username cannot be empty
+                        </div>
+                    </mat-error>
+                </mat-input-container>
+        
+                <mat-input-container class="white-input mt2 width-100">
+                    <input [formControl]="passwordControl" [errorStateMatcher]="matcher" [(ngModel)]="user.password" matInput placeholder="Password" type="password">
+                    <mat-error class="with-icon white-text-color" *ngIf="!user.password">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            Password cannot be empty
+                        </div>
+                    </mat-error>
                 </mat-input-container>
         
                 <mat-input-container class="white-input mt2 width-100" hintLabel="{{passwordError}}">
                     <input [(ngModel)]="user.confirmPassword" matInput placeholder="Confirm Password" type="password">
                 </mat-input-container>
-        
+                
                 <div class="clearfix mt3">
                     <div class="col col-12 px3">
                         <button class="width-100" (click)="register()" mat-raised-button>Register</button>

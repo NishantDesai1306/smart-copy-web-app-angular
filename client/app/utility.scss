@@ -1,3 +1,5 @@
+@import '../../node_modules/@angular/material/_theming.scss';
+
 .width-100 {
     width: 100% !important;
 }
@@ -13,4 +15,22 @@
 .align-content-right {
     display: flex;
     justify-content: flex-end;
+}
+
+.expandable {
+    position: relative;
+    height: auto !important;
+    min-height: 100% !important;
+}
+
+.disabled-text {
+    color: mat-color($mat-gray, 500)
+}
+
+mat-error.with-icon {
+    display: flex !important;
+}
+
+.mr02 {
+    margin-right: 0.2em !important;
 }

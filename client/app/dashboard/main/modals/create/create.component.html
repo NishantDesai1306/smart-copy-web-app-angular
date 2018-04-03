@@ -1,7 +1,24 @@
 <h1 mat-dialog-title>Create Copied Item</h1>
 <div mat-dialog-content class="container">
     <mat-form-field class="value-input-control">
-        <textarea cdkFocusInitial [(ngModel)]="item.value" rows="7" matInput placeholder="Copied Item"></textarea>
+        <textarea
+            matInput
+            cdkFocusInitial
+            [formControl]="copiedItemControl"
+            [errorStateMatcher]="matcher"
+            [(ngModel)]="item.value" 
+            rows="7"
+            placeholder="Copied Item"
+        >
+        </textarea>
+        <mat-error class="with-icon" *ngIf="!item.value">
+            <div class="mr02">
+                <mat-icon>error_outline</mat-icon>
+            </div>
+            <div>
+                Value cannot be empty
+            </div>
+        </mat-error>
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
@@ -11,7 +28,7 @@
         </div>
 
         <div class="col col-6">
-            <button class="width-100" mat-button [mat-dialog-close]="item.value" color="primary">Create</button>
+            <button [disabled]="!item.value" class="width-100" mat-button [mat-dialog-close]="item.value" color="primary">Create</button>
         </div>
     </div>
 </div>

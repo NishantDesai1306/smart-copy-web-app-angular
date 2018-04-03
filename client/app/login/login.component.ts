@@ -4,15 +4,26 @@ import {AuthService} from './../shared/auth.service';
 import {Component, OnInit} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import { NotificationService } from '../shared/notification.service';
+import { FormControl, Validators } from '@angular/forms';
+import { RequiredStateMatcher } from '../shared/required-state-matcher';
 
 @Component({selector: 'login', templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
     error : string;
     user : any = {
-        email: "nishant",
-        password: "nishant"
+        email: "",
+        password: ""
     };
     rememberMe : boolean = false;
+
+    emailControl = new FormControl('', [
+        Validators.required
+    ]);
+    passwordControl = new FormControl('', [
+        Validators.required
+    ]);
+    
+    matcher = new RequiredStateMatcher();
 
     constructor(
         private authService : AuthService, 

@@ -1,4 +1,4 @@
-<div class="clearfix pt2">
+<div class="clearfix pt1">
     <div class="col col-3">&nbsp;</div>
     <div class="col col-6">
         <mat-card class="m4 indigo-background-color">
@@ -15,14 +15,30 @@
             </mat-card-header>
             <mat-card-content>
                 <mat-form-field class="white-input mt1 width-100">
-                    <input matInput placeholder="Username" [(ngModel)]="user.email">
+                    <input matInput [formControl]="emailControl" [errorStateMatcher]="matcher" placeholder="Username" [(ngModel)]="user.email">
+                    <mat-error class="with-icon white-text-color" *ngIf="!user.email">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            Username cannot be empty
+                        </div>
+                    </mat-error>
                 </mat-form-field>
                 
                 <mat-form-field class="white-input mt1 width-100" hintLabel="{{passwordError}}">
-                    <input matInput placeholder="Password" type="password" [(ngModel)]="user.password">
+                    <input matInput [formControl]="passwordControl" [errorStateMatcher]="matcher" placeholder="Password" type="password" [(ngModel)]="user.password">
+                    <mat-error class="with-icon white-text-color" *ngIf="!user.password">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            Password cannot be empty
+                        </div>
+                    </mat-error>
                 </mat-form-field>
                 
-                <mat-slide-toggle [(ngModel)]="rememberMe" class="white-toggle-switch">Remember Me</mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="rememberMe" class="white-toggle-switch mt1">Remember Me</mat-slide-toggle>
                 
                 <div class="clearfix mt3">
                     <div class="col col-6 px3">

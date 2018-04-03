@@ -31,8 +31,11 @@ export class MainComponent implements OnInit {
         });
       
         dialogRef.afterClosed().subscribe(item => {
-            this.copiedItemService.insertItem(item)
-            .subscribe((data) => { console.log(data); });
+            if (item) {
+                this.copiedItemService
+                    .insertItem(item)
+                    .subscribe((data) => { console.log(data); });
+            }
         });
     }
 
@@ -49,8 +52,11 @@ export class MainComponent implements OnInit {
         });
       
         dialogRef.afterClosed().subscribe(item => {
-            this.copiedItemService.updateItem(selectedCopiedItem.getId(), item)
-            .subscribe((data) => { console.log(data); });
+            if (item) {
+                this.copiedItemService
+                    .updateItem(selectedCopiedItem.getId(), item)
+                    .subscribe((data) => { console.log(data); });
+            }
         });
     }
 
@@ -66,9 +72,12 @@ export class MainComponent implements OnInit {
             data: { value: selectedCopiedItem.getValue() }
         });
       
-        dialogRef.afterClosed().subscribe(item => {
-            this.copiedItemService.deleteItem(selectedCopiedItem.getId())
-            .subscribe((data) => { console.log(data); });
+        dialogRef.afterClosed().subscribe(shouldDelete => {
+            if (shouldDelete) {
+                this.copiedItemService
+                    .deleteItem(selectedCopiedItem.getId())
+                    .subscribe((data) => { console.log(data); });
+            }
         });
     }
 }

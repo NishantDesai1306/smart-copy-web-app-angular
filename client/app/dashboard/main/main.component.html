@@ -12,7 +12,7 @@
 
         <div *ngIf="!loadingData" class="width-100">
             <mat-list class="width-100 copied-item-list" *ngIf="copiedItems && copiedItems.length">
-                <mat-list-item class="white-background mat-elevation-z1" *ngFor="let copiedItem of copiedItems">
+                <mat-list-item class="expandable white-background mat-elevation-z1" *ngFor="let copiedItem of copiedItems">
                     <div class="copied-item-list-content clearfix width-100 flex items-center">
                         <div class="col mr3">
                             <div class="flex items-center">
@@ -20,8 +20,8 @@
                             </div>
                         </div>
 
-                        <div class="col col-12">
-                            <p matLine>
+                        <div class="col col-10">
+                            <p>
                                 <span> {{copiedItem.value}} </span>
                             </p>
 

@@ -86,7 +86,8 @@ CopiedItemSchema.statics = {
                 });
             }
             else {
-                copiedItem.createdAt = newCopiedItem.updatedAt;
+                newCopiedItem._id = new mongoose.Types.ObjectId();
+                newCopiedItem.createdAt = newCopiedItem.updatedAt;
 
                 copiedItemDefer.resolve(new model(newCopiedItem));
             }
