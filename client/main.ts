@@ -2,7 +2,6 @@ import 'core-js';
 import 'reflect-metadata';
 import 'zone.js/dist/zone';
 import 'hammerjs';
-import 'clipboard';
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule }              from './app/app.module';
