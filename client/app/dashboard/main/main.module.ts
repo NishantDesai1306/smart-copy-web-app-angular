@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
 import { AvatarModule } from 'ng2-avatar';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { MainComponent } from './main.component';
 import { SharedModule } from './../../shared/shared.module';
@@ -21,6 +22,7 @@ import { UpdateCopiedItemModalComponent } from './modals/update/update.component
     FormsModule,
     ReactiveFormsModule,
 
+    ClipboardModule,
     AvatarModule.forRoot()
   ],
   entryComponents: [

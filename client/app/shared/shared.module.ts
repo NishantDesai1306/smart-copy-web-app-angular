@@ -6,12 +6,13 @@ import { MaterialModule } from './material.module';
 import { ToolbarModule } from './toolbar/toolbar.module';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { CopiedItemService } from './copied-item.service';
+import { UtilityService } from './utility.service';
 
 @NgModule({
     imports: [MaterialModule, ToolbarModule],
     exports: [ToolbarComponent, MaterialModule],
     declarations: [],
-    providers: [AuthService, UserService, CopiedItemService, NotificationService],
+    providers: [AuthService, UserService, CopiedItemService, NotificationService, UtilityService],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SharedModule { }

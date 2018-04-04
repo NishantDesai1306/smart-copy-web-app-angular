@@ -6,6 +6,8 @@ import { AvatarModule } from 'ng2-avatar';
 import { CopiedItemService, CopiedItem } from '../../shared/copied-item.service';
 import { CreateCopiedItemModalComponent } from './modals/create/create.component';
 import { UpdateCopiedItemModalComponent } from './modals/update/update.component';
+import { NotificationService } from '../../shared/notification.service';
+import { UtilityService } from '../../shared/utility.service';
 
 @Component({
     templateUrl: './main.component.html'
@@ -14,9 +16,13 @@ export class MainComponent implements OnInit {
     copiedItems: CopiedItem[];
     loadingData: boolean = true;
 
-    constructor(private copiedItemService: CopiedItemService, private dialog: MatDialog) {
+    constructor(
+        private copiedItemService: CopiedItemService,
+        private dialog: MatDialog,
+        private notificationService: NotificationService,
+        private utilityService: UtilityService
+    ) {
         this.copiedItemService.getItems().subscribe((copiedItems) => {
-            console.log('here', copiedItems);
             this.copiedItems = copiedItems;
             this.loadingData = false;
         });
@@ -79,5 +85,14 @@ export class MainComponent implements OnInit {
                     .subscribe((data) => { console.log(data); });
             }
         });
+    }
+
+    onCopy(value: string) {
+        const formatedText = this.utilityService.truncateString(value, 100);
+        this.notificationService.createSimpleNotification(`${formatedText} copied to your clipboard.`);
+    }
+
+    log(e) {
+        console.log(e);
     }
 }

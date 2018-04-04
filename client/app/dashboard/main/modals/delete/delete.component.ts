@@ -1,5 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { UtilityService } from '../../../../shared/utility.service';
 
 @Component({
     templateUrl: './delete.component.html'
@@ -8,11 +9,10 @@ export class DeleteCopiedItemModalComponent {
 
     constructor(
         public dialogRef : MatDialogRef < DeleteCopiedItemModalComponent >,
-        @Inject(MAT_DIALOG_DATA)public item : any
+        @Inject(MAT_DIALOG_DATA)public item : any,
+        private utilityService: UtilityService
     ) {
-        if (item.value && item.value.length >= 50) {
-            item.value = item.value.slice(0, 50) + '...';
-        }
+        item.value = utilityService.truncateString(item.value);
     }
 
     onCancel() : void {
