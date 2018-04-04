@@ -17,8 +17,14 @@
     top: -4px;
 }
 
-mat-list.copied-item-list {
+mat-nav-list.copied-item-list {
     padding: 0;
+
+    mat-list-item {
+        div.mat-list-item-content {
+            min-height: 75px;
+        }
+    }
 }
 
 .pull-right {

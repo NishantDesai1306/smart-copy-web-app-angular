@@ -8,13 +8,21 @@ import 'rxjs/add/operator/catch';
 import { UserService } from './user.service';
 
 export class CopiedItem {
+    static MAX_VALUE_LENGTH = 500;
+
+    displayValue: string = '';
+
     constructor(
         private _id: string,
         private user: string,
         private value: string,
         private createdAt: Date,
         private isDeleted: boolean
-    ) { }
+    ) { 
+        this.displayValue = this.value && this.value.length > CopiedItem.MAX_VALUE_LENGTH ?
+            this.value.slice(0, CopiedItem.MAX_VALUE_LENGTH) + '...' :
+            this.value;
+    }
 
     setValue(value): void {
         this.value = value;
