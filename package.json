@@ -6,7 +6,6 @@
   "scripts": {
     "build": "cross-env ENV=build gulp build",
     "dev": "cross-env UPLOAD_PATH=./upload gulp",
-    "prestart": "npm run build",
     "start": "cross-env UPLOAD_PATH=./upload cross-env ENV=production node server/server",
     "postinstall": "typings install"
   },
