@@ -1,7 +1,16 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+var plugins = [
+    new ProgressBarPlugin(),
+    new HtmlWebpackPlugin({template: './client/index.html'})
+];
+
+if (process.env.ENV === 'production') {
+    plugins.push(new UglifyJsPlugin());
+}
 
 module.exports = {
     watch: true,
@@ -24,8 +33,5 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.ts']
     },
-    plugins: [
-        new ProgressBarPlugin(),
-        new HtmlWebpackPlugin({template: './client/index.html'})
-    ]
+    plugins: plugins
 };
