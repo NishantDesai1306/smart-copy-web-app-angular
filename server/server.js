@@ -11,10 +11,11 @@ var passport = require('passport');
 var session = require('express-session');
 var apiRouter = require('./api');
 var authRouter = require('./auth');
-var salt = require('./config').salt;
+var config = require('./config');
+var salt = config.salt;
 
 //mongoose connect
-mongoose.connect('mongodb://localhost/smart-copy');
+mongoose.connect(config.connectionString);
 
 // set our port
 var port = process.env.PORT || 3000;
