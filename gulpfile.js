@@ -33,7 +33,7 @@ var compileSass = function() {
         .pipe(sass().on('error', sass.logError))
         .pipe(concat('app.bundle.css'));
 
-    if (process.env.ENV === 'production') {
+    if (process.env.ENV === 'build') {
         task = task.pipe(uglifycss({
             "maxLineLen": 80,
             "uglyComments": true

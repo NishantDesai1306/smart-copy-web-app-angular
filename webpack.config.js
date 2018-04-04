@@ -8,12 +8,12 @@ var plugins = [
     new HtmlWebpackPlugin({template: './client/index.html'})
 ];
 
-if (process.env.ENV === 'production') {
+if (process.env.ENV === 'build') {
     plugins.push(new UglifyJsPlugin());
 }
 
 module.exports = {
-    watch: true,
+    watch: process.env.ENV !== 'build',
     entry: './client/main.ts',
     output: {
         path: './dist',
