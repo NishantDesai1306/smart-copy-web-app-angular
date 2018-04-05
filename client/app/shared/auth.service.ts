@@ -39,6 +39,23 @@ export class AuthService {
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
+    socialLogin (email: string, username: string, token: string, imageUrl: string, source: string) {
+        let self = this;
+        let loginUrl: string = this.authUrl + '/social-login';
+
+        return self.http.post(loginUrl, {email, username, token, imageUrl, source})
+            .map((res:Response) => res.json())
+            .map((res) => {
+                self.isLoggedIn = res.status;
+                if(self.isLoggedIn) {
+                    self.userService.setUser(res.data.username, res.data.email, res.data.profilePictureUrl);
+                }
+
+                return res;
+            })
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
     register(email: string, username: string, password: string) {
         let self = this;
         let loginUrl: string = this.authUrl + '/register';

@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit {
 
     public socialSignIn(socialPlatform : string) {
         let socialPlatformProvider;
+
         if(socialPlatform == "facebook"){
           socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
         }else if(socialPlatform == "google"){
@@ -73,11 +74,20 @@ export class LoginComponent implements OnInit {
         }
         
         this.socialAuthService.signIn(socialPlatformProvider)
-        .then((userData) => {
-            console.log(socialPlatform+" sign in data : " , userData);
-    
-          }
-        )
+        .then(({email, name, image, token}) => {
+            console.log(socialPlatform+" sign in data : " , {email, name, image, token});
+            return this.authService.socialLogin(email, name, token, image, socialPlatform)
+                .subscribe(({status, reason}) => {
+                    if (status) {
+                        this.router.navigateByUrl('/dashboard')
+                    } else {
+                        console.error('error occurred while login', reason);
+                        this.notificationService.createSimpleNotification(reason);
+                    }
+                }, (err) => {
+                    console.log(err);
+                });
+        })
         .catch((err) => {
             console.log(err);
         });

@@ -18,6 +18,7 @@ exports.isAuthenticated = isAuthenticated;
 
 
 router.post('/login', controller.login);
+router.post('/social-login', controller.socialLogin);
 router.post('/register', passport.authenticate('local-signup'), controller.successRegister);
 router.post('/logout', isAuthenticated, controller.logout);
 
