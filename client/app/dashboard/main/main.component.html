@@ -1,6 +1,6 @@
 <div class="clearfix">
-    <div class="col col-2">&nbsp;</div>
-    <div class="col col-8 flex justify-center">
+    <div class="lg-col lg-col-2 md-hide sm-hide xs-hide">&nbsp;</div>
+    <div class="lg-col lg-col-8 flex justify-center">
         <div *ngIf="loadingData" class="loader-spinner loader-large" style="position: absolute; top: 35%; left: 48%;">
             <div class="loader-spinner-wrapper">
                 <div class="loader-rotator">
@@ -14,7 +14,7 @@
             <mat-nav-list class="width-100 copied-item-list" *ngIf="copiedItems && copiedItems.length">
                 <mat-list-item class="expandable white-background mat-elevation-z1" *ngFor="let copiedItem of copiedItems">
                     <div ngxClipboard [cbContent]="copiedItem.value" (cbOnSuccess)="onCopy(copiedItem.value)" class="copied-item-list-content clearfix width-100 flex items-center">
-                        <div class="col mr3">
+                        <div class="col xs-col mr3">
                             <div class="flex items-center">
                                 <avatar class="avatar" matListIcon [background]="'#1E88E5'" [size]="40" [name]="copiedItem.value" [displayType]="'circle'"></avatar>
                             </div>

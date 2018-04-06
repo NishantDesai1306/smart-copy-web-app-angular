@@ -1,47 +1,80 @@
-import { NotificationService } from './../../shared/notification.service';
-import { Router } from '@angular/router';
-import { AuthService } from './../../shared/auth.service';
+import { Observable } from 'rxjs/Rx';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { FormControl, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+
+import { NotificationService } from './../../shared/notification.service';
+import { AuthService } from './../../shared/auth.service';
+
 
 @Component({
     templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit {
 
-    user: any = {
-        username: '',
-        password: '',
-        confirmPassword: '',
-        email: ''
-    }
-
-    passwordError: any = '';
-
     emailControl = new FormControl('', [
-        Validators.required
-    ]);
+        Validators.required,
+        Validators.email
+    ], this.validateEmailNotTaken.bind(this));
     usernameControl = new FormControl('', [
         Validators.required
-    ]);
+    ], this.validateUsernameNotTaken.bind(this));
     passwordControl = new FormControl('', [
         Validators.required
     ]);
-
+    confirmPasswordControl = new FormControl('', [
+        Validators.required,
+        this.matchesPasswordValidator.bind(this)
+    ]);
+    
     constructor(private authService: AuthService, private router: Router, private notificationService: NotificationService) { }
 
-    register() {
-        this.passwordError = this.user.password !== this.user.confirmPassword ? 'Password and Confirm Password must match' : '';
+    ngOnInit() { }
+    
+    validateEmailNotTaken(control: AbstractControl) {
+        return this.authService.validateEmail(control.value).map(res => {
+            if (!res.data) {
+                return {
+                    emailAlreadyRegistered: true
+                };
+            }
 
-        if (this.passwordError || this.emailControl.invalid || this.usernameControl.invalid || this.passwordControl.invalid) {
-            this.notificationService.createSimpleNotification('User details are incomplete');            
+            return {};
+        });
+    }
+
+    validateUsernameNotTaken(control: AbstractControl) {
+        return this.authService.validateUsername(control.value).map(res => {
+            if (!res.data) {
+                return {
+                    usernameAlreadyRegistered: true
+                };
+            }
+
+            return {};
+        });
+    }
+
+    matchesPasswordValidator(control: AbstractControl) {
+        if (control.value !== this.passwordControl.value) {
+            return {
+                doesNotMatch: true
+            }
+        }
+
+        return {};
+    }
+
+    register() {
+        if (this.emailControl.invalid || this.usernameControl.invalid || this.passwordControl.invalid || this.confirmPasswordControl.invalid) {
+            this.notificationService.createSimpleNotification('User details are incomplete or invalid');            
             return;
         }
 
         this.authService
-        .register(this.user.email, this.user.username, this.user.password)
-        .subscribe((isSuccessfull) => {
-            if(isSuccessfull) {
+        .register(this.emailControl.value, this.usernameControl.value, this.passwordControl.value)
+        .subscribe((isSuccessful) => {
+            if(isSuccessful) {
                 this.router.navigateByUrl('/dashboard')
             }
             else {
@@ -51,6 +84,4 @@ export class RegisterComponent implements OnInit {
             console.error(err);
         });
     }
-
-    ngOnInit() { }
 }

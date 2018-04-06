@@ -9,13 +9,19 @@ class User {
     private username: string;
     private email: string;
     private profilePictureUrl: string;
+    private social: string = null;
 
-    constructor(username: string, email: string, profilePicture: string) {
+    constructor(username: string, email: string, profilePicture: string, social: string) {
+        console.log('social', social);
         this.username = username;
         this.email = email;
         this.profilePictureUrl = profilePicture;
+        this.social = social;
     }
 
+    getSocial(): string {
+        return this.social || null;
+    };
     getUsername(): string {
         return this.username || null;
     };
@@ -33,11 +39,11 @@ export class UserService {
     apiUrl: string = '/api/user';
 
     constructor(private http: Http) {
-        this.userBehaviourSubject = new BehaviorSubject<User>(new User(null, null, null));
+        this.userBehaviourSubject = new BehaviorSubject<User>(new User(null, null, null, null));
     }
 
-    setUser(username, email, profilePicture) {
-        let user:User = new User(username, email, profilePicture);
+    setUser(username, email, profilePicture, social) {
+        let user:User = new User(username, email, profilePicture, social);
         this.userBehaviourSubject.next(user);
     }
 
@@ -57,7 +63,7 @@ export class UserService {
             .map((res:Response) => res.json())
             .map((res) => {
                 if(res.status) {
-                    self.setUser(res.data.username, res.data.email, res.data.profilePictureUrl);
+                    self.setUser(res.data.username, res.data.email, res.data.profilePictureUrl, res.data.socal);
                 }
                 return res;
             })
@@ -74,7 +80,7 @@ export class UserService {
             })
             .map((res) => {
                 if(res && res.status) {
-                    self.setUser(res.data.username, res.data.email, res.data.profilePictureUrl);
+                    self.setUser(res.data.username, res.data.email, res.data.profilePictureUrl, res.data.social);
                 }
                 return res;
             })
@@ -90,6 +96,6 @@ export class UserService {
             .map((res) => {
                 return res;
             })
-            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+            .catch((error:any) => Observable.throw(error || 'Server error'));
     }
 }

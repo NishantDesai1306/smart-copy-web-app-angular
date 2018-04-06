@@ -133,6 +133,13 @@ mat-error.with-icon {
 .mr02 {
   margin-right: 0.2em !important; }
 
+div.mat-form-field-infix mat-spinner.mat-spinner {
+  position: absolute;
+  top: 0;
+  right: 10px; }
+  div.mat-form-field-infix mat-spinner.mat-spinner svg circle {
+    stroke: white; }
+
 .center-align {
   display: flex;
   justify-content: center;
@@ -1832,6 +1839,13 @@ mat-error.with-icon {
 .font-size-40 {
   font-size: 40px; }
 
+div.mat-form-field-infix mat-spinner.mat-spinner {
+  position: absolute;
+  top: 0;
+  right: 10px; }
+  div.mat-form-field-infix mat-spinner.mat-spinner svg circle {
+    stroke: white; }
+
 .center-align {
   display: flex;
   justify-content: center;
@@ -1939,6 +1953,13 @@ mat-nav-list.copied-item-list {
   display: flex;
   justify-content: center;
   align-items: center; }
+
+div.mat-form-field-infix mat-spinner.mat-spinner {
+  position: absolute;
+  top: 0;
+  right: 10px; }
+  div.mat-form-field-infix mat-spinner.mat-spinner svg circle {
+    stroke: white; }
 
 .item-loader.mat-spinner {
   position: relative;

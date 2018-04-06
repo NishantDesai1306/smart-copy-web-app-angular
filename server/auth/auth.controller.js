@@ -16,20 +16,22 @@ var FacebookVerifier = new FacebookVerification.FacebookSignIn({
 });
 
 exports.socialLogin = function(req, res, next) {
-    var validateUserToken = function(token, source) {
+
+    Q.when()
+    .then(function() {
         var defer = Q.defer();
         var promise = null;
-
-        if(source === 'facebook') {
-            promise = FacebookVerifier.verify(token);
+    
+        if(req.body.source === 'facebook') {
+            promise = FacebookVerifier.verify(req.body.token);
         }
-        else if(source === 'google') {
-            promise = GoogleVerifier.verify(token, req.body.email);
+        else if(req.body.source === 'google') {
+            promise = GoogleVerifier.verify(req.body.token, req.body.email);
         }
         else {
             return Q.reject(new Error('invalid source provided'));
         }
-
+    
         promise
         .then(function() {
             return defer.resolve();
@@ -37,11 +39,9 @@ exports.socialLogin = function(req, res, next) {
         .catch(function (err) {
             return defer.reject(err);
         });
-
+    
         return defer.promise;
-    };
-
-    validateUserToken(req.body.token, req.body.source)
+    })
     .then(function() {
         var userDefer = Q.defer();
 
@@ -82,14 +82,13 @@ exports.socialLogin = function(req, res, next) {
         return loginDefer.promise;
     })
     .then(function (user) {
-        console.log('user', user);
-
         return res.json({
             status: true,
             data: {
                 _id: user._id,
                 username: user.username,
                 email: user.email,
+                social: user.socialLogin,
                 profilePictureUrl: user.profilePicture.path
             }
         });
@@ -175,5 +174,58 @@ exports.logout = function(req, res) {
     res.clearCookie('remember_me');
     res.json({
         status: true
+    });
+};
+
+exports.validateEmail = function(req, res, next) {
+    var email = req.query.email;
+
+    if (!email) {
+        return res.json({
+            status: false,
+            reason: 'invalid email provided'
+        });
+    }
+
+    User.validateEmail(email, req.user && req.user._id)
+    .then(function(isValid) {
+        return res.json({
+            status: true,
+            data: isValid
+        });
+    })
+    .catch(function (err) {
+        console.log(err);
+        return res.json({
+            status: false,
+            reason: err.message || err.toString()
+        });
+    });
+};
+
+
+exports.validateUsername = function(req, res, next) {
+    var username = req.query.username;
+
+    if (!username) {
+        return res.json({
+            status: false,
+            reason: 'invalid username provided'
+        });
+    }
+
+    User.validateUsername(username, req.user && req.user._id)
+    .then(function(isValid) {
+        return res.json({
+            status: true,
+            data: isValid
+        });
+    })
+    .catch(function (err) {
+        console.log(err);
+        return res.json({
+            status: false,
+            reason: err.message || err.toString()
+        });
     });
 };

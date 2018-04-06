@@ -29,10 +29,6 @@ var userSchema = new Schema({
         ref: 'Upload'
     }
 });
-var DEFAULT_PROFILE_PICTURE = {
-    _id: null,
-    path: null
-};
 
 userSchema.statics = {
     getUserById: function(userId, fields) {
@@ -139,20 +135,8 @@ userSchema.statics = {
                         });
                 }
                 else {
-                    // check if we have default profile picture id
-                    if (DEFAULT_PROFILE_PICTURE._id) {
-                        user.profilePicture = DEFAULT_PROFILE_PICTURE._id;
-                        return user.save(function (err) {
-                            if (err) {
-                                return profilePictureDefer.reject(err);
-                            }
-
-                            return profilePictureDefer.resolve(user); 
-                        });
-                    }
-    
                     // find default profile picture
-                    return Upload.findOne({ name: 'dummy_user.png' }, function(err, upload) {
+                    Upload.findOne({ name: 'dummy_user.png' }, function(err, upload) {
                         if (err) {
                             return profilePictureDefer.reject(err);
                         }
@@ -162,7 +146,7 @@ userSchema.statics = {
                             if (err) {
                                 return profilePictureDefer.reject(err);
                             }
-
+                            
                             return profilePictureDefer.resolve(user); 
                         });
                     });
@@ -171,7 +155,6 @@ userSchema.statics = {
                 return profilePictureDefer.promise;
             })
             .then(function (user) {
-                
                 user.populate('profilePicture', function(err) {
                     if (err) {
                         return createUserDefer.reject(err);
@@ -232,11 +215,19 @@ userSchema.statics = {
         this.getUserById(user._id || user)
             .then(function(user) {
                 var oldPasswordValidation = Q.defer();
-
-                if (bcrypt.compareSync(oldPassword, user.password)) {
+                
+                if (oldPassword){   
+                    if (bcrypt.compareSync(oldPassword, user.password)) {
+                        oldPasswordValidation.resolve(user);
+                    } else {
+                        oldPasswordValidation.reject(new Error('Old Password is invalid'));
+                    }
+                }
+                else if(user.socialLogin) {
                     oldPasswordValidation.resolve(user);
-                } else {
-                    oldPasswordValidation.reject(new Error('Old Password is invalid'));
+                }
+                else {
+                    oldPasswordValidation.reject(new Error('old password cannot be empty'));
                 }
 
                 return oldPasswordValidation.promise;
@@ -244,6 +235,7 @@ userSchema.statics = {
             .then(function(user) {
                 var newPasswordHash = bcrypt.hashSync(newPassword);
                 user.password = newPasswordHash;
+                user.socialLogin = null;
                 user.save(function(err) {
                     if (err) {
                         return defer.reject(err);
@@ -295,6 +287,60 @@ userSchema.statics = {
             });
 
         return changeProfilePictureDefer.promise;
+    },
+    validateEmail: function(email, excludeUser) {
+        var defer = Q.defer();
+        var model = this;
+        var criteria = {
+            email: email
+        };
+
+        if (excludeUser) {
+            criteria._id = {
+                $ne: excludeUser
+            };
+        }
+
+        if (!email) {
+            return Q.reject(new Error('invalid email provided'));
+        }
+
+        model.findOne(criteria, function(err, user) {
+            if (err) {
+                return defer.reject(err);
+            }
+
+            return defer.resolve(!user);
+        });
+
+        return defer.promise;
+    },
+    validateUsername: function(username, excludeUser) {
+        var defer = Q.defer();
+        var model = this;
+        var criteria = {
+            username: username
+        };
+
+        if (!username) {
+            return Q.reject(new Error('invalid username provided'));
+        }
+
+        if (excludeUser) {
+            criteria._id = {
+                $ne: excludeUser
+            };
+        }
+
+        model.findOne(criteria, function(err, user) {
+            if (err) {
+                return defer.reject(err);
+            }
+
+            return defer.resolve(!user);
+        });
+
+        return defer.promise;
     }
 };
 
