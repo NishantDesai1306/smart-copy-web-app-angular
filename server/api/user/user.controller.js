@@ -40,6 +40,8 @@ exports.changePassword = function(req, res) {
                 status: true
             });
         }, function(err) {
+            console.log(err);
+            
             res.json({
                 status: false,
                 reason: err.toString()

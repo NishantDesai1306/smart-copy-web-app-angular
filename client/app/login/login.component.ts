@@ -8,15 +8,11 @@ import { FormControl, Validators } from '@angular/forms';
 
 @Component({selector: 'login', templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
-    error: string = '';
-    user : any = {
-        email: "",
-        password: ""
-    };
     rememberMe : boolean = false;
 
     emailControl = new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.email
     ]);
     passwordControl = new FormControl('', [
         Validators.required
@@ -32,18 +28,18 @@ export class LoginComponent implements OnInit {
 
     login() {
         if (this.emailControl.invalid || this.passwordControl.invalid) {
-            this.notificationService.createSimpleNotification('Login details are incomplete');
+            this.notificationService.createSimpleNotification('Login details are invalid or incomplete');
             return;
         }
 
         this.authService
-            .login(this.user.email, this.user.password, this.rememberMe)
+            .login(this.emailControl.value, this.passwordControl.value, this.rememberMe)
             .subscribe(({status, reason}) => {
                 if (status) {
                     this.router.navigateByUrl('/dashboard')
                 } else {
                     console.error('error occurred while login', reason);
-                    this.notificationService.createSimpleNotification(reason && reason.message);
+                    this.notificationService.createSimpleNotification('Invalid Email or Password');
                 }
             }, (err) => {
                 console.log(err);
@@ -54,11 +50,14 @@ export class LoginComponent implements OnInit {
         this.route
             .queryParams
             .subscribe(params => {
-                this.error = params['errorMessage'] || '';
+                // const errorMessage = params['errorMessage'];
+                // if (errorMessage) {
+                //     this.notificationService.createSimpleNotification(errorMessage);
+                // }
             });
 
-        this.authService.getUserDetails().subscribe(isSuccessfull => {
-            if(isSuccessfull) {
+        this.authService.getUserDetails().subscribe(isSuccessful => {
+            if(isSuccessful) {
                 this.router.navigateByUrl('/dashboard');
             }
         });
@@ -66,6 +65,7 @@ export class LoginComponent implements OnInit {
 
     public socialSignIn(socialPlatform : string) {
         let socialPlatformProvider;
+
         if(socialPlatform == "facebook"){
           socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
         }else if(socialPlatform == "google"){
@@ -73,11 +73,20 @@ export class LoginComponent implements OnInit {
         }
         
         this.socialAuthService.signIn(socialPlatformProvider)
-        .then((userData) => {
-            console.log(socialPlatform+" sign in data : " , userData);
-    
-          }
-        )
+        .then(({email, name, image, token}) => {
+            console.log(socialPlatform+" sign in data : " , {email, name, image, token});
+            return this.authService.socialLogin(email, name, token, image, socialPlatform)
+                .subscribe(({status, reason}) => {
+                    if (status) {
+                        this.router.navigateByUrl('/dashboard')
+                    } else {
+                        console.error('error occurred while login', reason);
+                        this.notificationService.createSimpleNotification(reason);
+                    }
+                }, (err) => {
+                    console.log(err);
+                });
+        })
         .catch((err) => {
             console.log(err);
         });

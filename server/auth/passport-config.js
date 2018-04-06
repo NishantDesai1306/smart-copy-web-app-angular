@@ -8,15 +8,15 @@ exports.setupPassport = function(passport) {
     
     passport.use(new LocalStrategy({
         usernameField: 'email'
-    }, function (username, password, done) {
+    }, function (email, password, done) {
         process.nextTick(function () {
                 
             var criteria = {
                 $or: [
                     {
-                        username: username
+                        username: email
                     }, {
-                        email: username
+                        email: email
                     }
                 ]
             };

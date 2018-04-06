@@ -1,15 +1,15 @@
+import { AuthService } from './../../shared/auth.service';
 import {Component, OnInit, NgZone, Inject, EventEmitter, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import {NgUploaderOptions, UploadedFile, NgUploaderService} from 'ngx-uploader';
 
 import {UserService} from './../../shared/user.service';
 import { NotificationService } from '../../shared/notification.service';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, AbstractControl } from '@angular/forms';
 
 @Component({templateUrl: './user.component.html'})
 export class UserComponent implements OnInit {
-
-    user : any;
+    profilePictureUrl: string = '';
     previewData: any;
     error : string = '';
     
@@ -22,32 +22,78 @@ export class UserComponent implements OnInit {
     loading: boolean = false;
 
     emailControl = new FormControl('', [
-        Validators.required
-    ]);
+        Validators.required,
+        Validators.email
+    ], this.validateEmailNotTaken.bind(this));
     usernameControl = new FormControl('', [
         Validators.required
-    ]);
+    ], this.validateUsernameNotTaken.bind(this));
     
     constructor(
         private userService : UserService, 
         @Inject(NgZone)private zone : NgZone,
         private router : Router,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+        private authService: AuthService
     ) {
         this.uploadPromise = Promise.resolve("");
         this.inputUploadEvent = new EventEmitter<string>();
+    }
+
+    ngOnInit() {
+        this
+            .userService
+            .getUser()
+            .subscribe(user => {
+                this.usernameControl.setValue(user.getUsername(), {emitEvent: true});
+                this.emailControl.setValue(user.getEmail(), {emitEvent: true});
+                this.profilePictureUrl = user.getProfilePictureUrl();
+            });
+
+        this.uploaderOptions = new NgUploaderOptions({
+            url: '/api/upload',
+            filterExtensions: true,
+            allowedExtensions: ['jpeg', 'jpg', 'png'],
+            autoUpload: true,
+            maxUploads: 1,
+            previewUrl: true,
+        });
+    }
+
+    validateEmailNotTaken(control: AbstractControl) {
+        return this.authService.validateEmail(control.value).map(res => {
+            if (!res.data) {
+                return {
+                    emailAlreadyRegistered: true
+                };
+            }
+
+            return {};
+        });
+    }
+
+    validateUsernameNotTaken(control: AbstractControl) {
+        return this.authService.validateUsername(control.value).map(res => {
+            if (!res.data) {
+                return {
+                    usernameAlreadyRegistered: true
+                };
+            }
+
+            return {};
+        });
     }
 
     saveChanges() {        
         this.error = '';
     
         if (this.emailControl.invalid || this.usernameControl.invalid) {
-            this.notificationService.createSimpleNotification('User details are incomplete');
+            this.notificationService.createSimpleNotification('User details are invalid or incomplete');
             return;
         }
         
         this.userService
-            .changeDetails(this.user.username, this.user.email)
+            .changeDetails(this.usernameControl.value, this.emailControl.value)
             .subscribe(res => {
                 if (res.status) {
                     this.loading = false;
@@ -92,23 +138,5 @@ export class UserComponent implements OnInit {
 
     handlePreviewData(data: any) {
         this.previewData = data;
-    }
-
-    ngOnInit() {
-        this
-            .userService
-            .getUser()
-            .subscribe(user => {
-                this.user = Object.assign({}, user);
-            });
-
-        this.uploaderOptions = new NgUploaderOptions({
-            url: '/api/upload',
-            filterExtensions: true,
-            allowedExtensions: ['jpeg', 'jpg', 'png'],
-            autoUpload: true,
-            maxUploads: 1,
-            previewUrl: true,
-        });
     }
 }

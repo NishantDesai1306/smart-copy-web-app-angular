@@ -31,7 +31,24 @@ export class AuthService {
             .map((res) => {
                 self.isLoggedIn = res.status;
                 if(self.isLoggedIn) {
-                    self.userService.setUser(res.data.username, res.data.email, res.data.profilePictureUrl);
+                    self.userService.setUser(res.data.username, res.data.email, res.data.profilePictureUrl, res.data.social);
+                }
+
+                return res;
+            })
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    socialLogin (email: string, username: string, token: string, imageUrl: string, source: string) {
+        let self = this;
+        let loginUrl: string = this.authUrl + '/social-login';
+
+        return self.http.post(loginUrl, {email, username, token, imageUrl, source})
+            .map((res:Response) => res.json())
+            .map((res) => {
+                self.isLoggedIn = res.status;
+                if(self.isLoggedIn) {
+                    self.userService.setUser(res.data.username, res.data.email, res.data.profilePictureUrl, res.data.social);
                 }
 
                 return res;
@@ -48,10 +65,28 @@ export class AuthService {
             .map((res) => {
                 self.isLoggedIn = res.status;
                 if(self.isLoggedIn) {
-                    self.userService.setUser(res.data.username, res.data.email, res.data.profilePictureUrl);
+                    self.userService.setUser(res.data.username, res.data.email, res.data.profilePictureUrl, res.data.social);
                 }
                 return self.isLoggedIn;
             })
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    validateEmail(email: string) {
+        let self = this;
+        let validateUrl: string = `${this.authUrl}/validate-email?email=${email}`;
+
+        return self.http.get(validateUrl)
+            .map((res:Response) => res.json())
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    validateUsername(username: string) {
+        let self = this;
+        let validateUrl: string = `${this.authUrl}/validate-username?username=${username}`;
+
+        return self.http.get(validateUrl)
+            .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 
@@ -64,7 +99,7 @@ export class AuthService {
             .map((res) => {
                 if(res.status) {
                     self.isLoggedIn = false;
-                    self.userService.setUser(null, null ,null);
+                    self.userService.setUser(null, null ,null, null);
                 }
                 
                 return res;
@@ -81,7 +116,7 @@ export class AuthService {
             .map((res) => {
                 if(res.status) {
                     self.isLoggedIn = true;
-                    self.userService.setUser(res.data.username, res.data.email, res.data.profilePictureUrl);
+                    self.userService.setUser(res.data.username, res.data.email, res.data.profilePictureUrl, res.data.social);
                 }
                 
                 return res.status;

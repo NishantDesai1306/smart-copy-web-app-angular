@@ -1,0 +1,13 @@
+div.mat-form-field-infix {
+    mat-spinner.mat-spinner {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        
+        svg {
+            circle {
+                stroke: white;
+            }
+        }
+    }
+}

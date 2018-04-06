@@ -1,8 +1,12 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var request = require('request');
+var path = require('path');
+var fs = require('fs');
 var Q = require('q');
 var bcrypt = require('bcrypt-nodejs');
 var _ = require('lodash');
+
+var Schema = mongoose.Schema;
 var Upload = require('../upload/upload.model');
 // create a schema
 var userSchema = new Schema({
@@ -12,23 +16,19 @@ var userSchema = new Schema({
         unique: true
     },
     password: {
-        type: String,
-        required: true
+        type: String
     },
     createdAt: {
         type: Date,
         default: Date.now
     },
+    socialLogin: String,
     updatedAt: Date,
     profilePicture: {
         type: Schema.Types.ObjectId,
         ref: 'Upload'
     }
 });
-var DEFAULT_PROFILE_PICTURE = {
-    _id: null,
-    path: null
-};
 
 userSchema.statics = {
     getUserById: function(userId, fields) {
@@ -82,55 +82,88 @@ userSchema.statics = {
 
         return userDefer.promise;
     },
-    createUser: function(email, username, password) {
+    createUser: function(email, username, password, imageUrl, socialLogin) {
         var createUserDefer = Q.defer();
         var schema = this;
 
         this.isUserUnique(email, username)
             .then(function() {
-                var profilePictureDefer = Q.defer();
-
-                if (DEFAULT_PROFILE_PICTURE._id) {
-                    return profilePictureDefer.resolve(DEFAULT_PROFILE_PICTURE);
-                }
-
-                Upload.findOne({ name: 'dummy_user.png' }, function(err, upload) {
-                    if (err) {
-                        return profilePictureDefer.reject(err);
-                    }
-
-                    DEFAULT_PROFILE_PICTURE._id = upload._id.toString();
-                    DEFAULT_PROFILE_PICTURE.path = upload.path;
-                    return profilePictureDefer.resolve(DEFAULT_PROFILE_PICTURE);
-                });
-
-                return profilePictureDefer.promise;
-            })
-            .then(function(dummyProfilePciture) {
-
-                password = bcrypt.hashSync(password);
+                var userDefer = Q.defer();
                 var userModel = new schema({
                     email: email,
                     username: username,
-                    password: password,
-                    profilePicture: dummyProfilePciture._id
+                    password: password ? bcrypt.hashSync(password) : '',
+                    socialLogin: socialLogin || null
                 });
 
                 userModel.save(function(err) {
                     if (err) {
+                        return userDefer.reject(err);
+                    }
+
+                    return userDefer.resolve(userModel);
+                });
+
+                return userDefer.promise;
+            })
+            .then(function (user) {
+                var profilePictureDefer = Q.defer();
+                
+                // if imageUrl is provided then download image 
+                if (imageUrl) {
+                    var profilePicPath = './upload/' + user._id.toString() + '.png';
+
+                    request({uri: imageUrl})
+                        .pipe(fs.createWriteStream(path.resolve(profilePicPath)))
+                        .on('close', function() {
+
+                            Upload.createUpload('upload/' + user._id.toString()+'.png')
+                            .then(function(profilePictureUpload) {
+
+                                user.profilePicture = profilePictureUpload._id;
+                                user.save(function (err) {
+                                    if (err) {
+                                        return profilePictureDefer.reject(err);
+                                    }
+
+                                    return profilePictureDefer.resolve(user); 
+                                });
+                            })
+                            .catch(function (err) {
+                                return profilePictureDefer.reject(err);
+                            });
+                        });
+                }
+                else {
+                    // find default profile picture
+                    Upload.findOne({ name: 'dummy_user.png' }, function(err, upload) {
+                        if (err) {
+                            return profilePictureDefer.reject(err);
+                        }
+    
+                        user.profilePicture = upload._id.toString();
+                        return user.save(function (err) {
+                            if (err) {
+                                return profilePictureDefer.reject(err);
+                            }
+                            
+                            return profilePictureDefer.resolve(user); 
+                        });
+                    });
+                }
+
+                return profilePictureDefer.promise;
+            })
+            .then(function (user) {
+                user.populate('profilePicture', function(err) {
+                    if (err) {
                         return createUserDefer.reject(err);
                     }
 
-                    //passport's serialize-deserialize is called after successRegister of auth.controller 
-                    //so profilePicture needs to be set here
-                    createUserDefer.resolve({
-                        _id: userModel._id,
-                        email: userModel.email,
-                        username: userModel.username,
-                        profilePicture: dummyProfilePciture
-                    });
+                    return createUserDefer.resolve(user.toJSON());
                 });
-            }, function(err) {
+            })
+            .catch(function(err) {
                 createUserDefer.reject(err);
             });
 
@@ -182,11 +215,19 @@ userSchema.statics = {
         this.getUserById(user._id || user)
             .then(function(user) {
                 var oldPasswordValidation = Q.defer();
-
-                if (bcrypt.compareSync(oldPassword, user.password)) {
+                
+                if (oldPassword){   
+                    if (bcrypt.compareSync(oldPassword, user.password)) {
+                        oldPasswordValidation.resolve(user);
+                    } else {
+                        oldPasswordValidation.reject(new Error('Old Password is invalid'));
+                    }
+                }
+                else if(user.socialLogin) {
                     oldPasswordValidation.resolve(user);
-                } else {
-                    oldPasswordValidation.reject(new Error('Old Password is invalid'));
+                }
+                else {
+                    oldPasswordValidation.reject(new Error('old password cannot be empty'));
                 }
 
                 return oldPasswordValidation.promise;
@@ -194,6 +235,7 @@ userSchema.statics = {
             .then(function(user) {
                 var newPasswordHash = bcrypt.hashSync(newPassword);
                 user.password = newPasswordHash;
+                user.socialLogin = null;
                 user.save(function(err) {
                     if (err) {
                         return defer.reject(err);
@@ -245,6 +287,60 @@ userSchema.statics = {
             });
 
         return changeProfilePictureDefer.promise;
+    },
+    validateEmail: function(email, excludeUser) {
+        var defer = Q.defer();
+        var model = this;
+        var criteria = {
+            email: email
+        };
+
+        if (excludeUser) {
+            criteria._id = {
+                $ne: excludeUser
+            };
+        }
+
+        if (!email) {
+            return Q.reject(new Error('invalid email provided'));
+        }
+
+        model.findOne(criteria, function(err, user) {
+            if (err) {
+                return defer.reject(err);
+            }
+
+            return defer.resolve(!user);
+        });
+
+        return defer.promise;
+    },
+    validateUsername: function(username, excludeUser) {
+        var defer = Q.defer();
+        var model = this;
+        var criteria = {
+            username: username
+        };
+
+        if (!username) {
+            return Q.reject(new Error('invalid username provided'));
+        }
+
+        if (excludeUser) {
+            criteria._id = {
+                $ne: excludeUser
+            };
+        }
+
+        model.findOne(criteria, function(err, user) {
+            if (err) {
+                return defer.reject(err);
+            }
+
+            return defer.resolve(!user);
+        });
+
+        return defer.promise;
     }
 };
 

@@ -16,8 +16,11 @@ var isAuthenticated = function(req, res, next) {
 };
 exports.isAuthenticated = isAuthenticated;
 
+router.get('/validate-email', controller.validateEmail);
+router.get('/validate-username', controller.validateUsername);
 
 router.post('/login', controller.login);
+router.post('/social-login', controller.socialLogin);
 router.post('/register', passport.authenticate('local-signup'), controller.successRegister);
 router.post('/logout', isAuthenticated, controller.logout);
 

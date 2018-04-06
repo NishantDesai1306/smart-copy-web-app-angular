@@ -1,6 +1,6 @@
 <div class="clearfix pt1">
-    <div class="col col-3">&nbsp;</div>
-    <div class="col col-6">
+    <div class="lg-col lg-col-3 md-col-1">&nbsp;</div>
+    <div class="lg-col lg-col-6 md-col-10">
         <mat-card class="m4 indigo-background-color">
             <div class="width-100 logo-container">
                 <img src="/images/icon.png" alt="logo" class="logo indigo-background-color" >
@@ -15,8 +15,8 @@
             </mat-card-header>
             <mat-card-content>
                 <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="emailControl" [(ngModel)]="user.email" matInput placeholder="Email" type="email">
-                    <mat-error class="with-icon white-text-color" *ngIf="!user.email">
+                    <input [formControl]="emailControl" matInput placeholder="Email" type="email">
+                    <mat-error class="with-icon white-text-color" *ngIf="emailControl.getError('required')">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>
                         </div>
@@ -24,11 +24,28 @@
                             Email cannot be empty
                         </div>
                     </mat-error>
+                    <mat-error class="with-icon white-text-color" *ngIf="!emailControl.getError('required') && emailControl.getError('email')">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            Please enter a valid Email Address
+                        </div>
+                    </mat-error>
+                    <mat-error class="with-icon white-text-color" *ngIf="emailControl.getError('emailAlreadyRegistered')">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            An account with this Email Address already exists.
+                        </div>
+                    </mat-error>
+                    <mat-spinner *ngIf="emailControl.pending" [diameter]="20"></mat-spinner>
                 </mat-input-container>
         
                 <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="usernameControl" [(ngModel)]="user.username" matInput placeholder="Username">
-                    <mat-error class="with-icon white-text-color" *ngIf="!user.username">
+                    <input [formControl]="usernameControl" matInput placeholder="Username">
+                    <mat-error class="with-icon white-text-color" *ngIf="usernameControl.getError('required')">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>
                         </div>
@@ -36,11 +53,20 @@
                             Username cannot be empty
                         </div>
                     </mat-error>
+                    <mat-error class="with-icon white-text-color" *ngIf="usernameControl.getError('usernameAlreadyRegistered')">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            An account with this Username already exists
+                        </div>
+                    </mat-error>
+                    <mat-spinner *ngIf="usernameControl.pending" [diameter]="20"></mat-spinner>
                 </mat-input-container>
         
                 <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="passwordControl" [(ngModel)]="user.password" matInput placeholder="Password" type="password">
-                    <mat-error class="with-icon white-text-color" *ngIf="!user.password">
+                    <input [formControl]="passwordControl" matInput placeholder="Password" type="password">
+                    <mat-error class="with-icon white-text-color" *ngIf="passwordControl.getError('required')">
                         <div class="mr02">
                             <mat-icon>error_outline</mat-icon>
                         </div>
@@ -50,13 +76,29 @@
                     </mat-error>
                 </mat-input-container>
         
-                <mat-input-container class="white-input mt2 width-100" hintLabel="{{passwordError}}">
-                    <input [(ngModel)]="user.confirmPassword" matInput placeholder="Confirm Password" type="password">
+                <mat-input-container class="white-input mt2 width-100">
+                    <input [formControl]="confirmPasswordControl" matInput placeholder="Confirm Password" type="password">
+                    <mat-error class="with-icon white-text-color" *ngIf="confirmPasswordControl.getError('required')">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            Confirm Password cannot be empty
+                        </div>
+                    </mat-error>
+                    <mat-error class="with-icon white-text-color" *ngIf="confirmPasswordControl.getError('doesNotMatch')">
+                        <div class="mr02">
+                            <mat-icon>error_outline</mat-icon>
+                        </div>
+                        <div>
+                            Password and Confirm Password must match
+                        </div>
+                    </mat-error>
                 </mat-input-container>
                 
                 <div class="clearfix mt3">
-                    <div class="col col-12 px3">
-                        <button class="width-100" (click)="register()" mat-raised-button>Register</button>
+                    <div class="lg-col lg-col-12 px3">
+                        <button [disabled]="emailControl.pending || usernameControl.pending" class="width-100" (click)="register()" mat-raised-button>Register</button>
                     </div>
                 </div>
             </mat-card-content>
