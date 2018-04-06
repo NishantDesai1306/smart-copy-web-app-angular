@@ -12,7 +12,6 @@ class User {
     private social: string = null;
 
     constructor(username: string, email: string, profilePicture: string, social: string) {
-        console.log('social', social);
         this.username = username;
         this.email = email;
         this.profilePictureUrl = profilePicture;

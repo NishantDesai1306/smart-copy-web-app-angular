@@ -76,7 +76,6 @@ export class CopiedItemService {
         });
 
         this.copiedItems = copiedItems;
-        console.log('settings', this.copiedItems);
         this.copiedItemsBehaviourSubject.next(this.copiedItems);
     }
 
