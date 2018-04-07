@@ -21,13 +21,8 @@ export class UserComponent implements OnInit {
 
     loading: boolean = false;
 
-    emailControl = new FormControl('', [
-        Validators.required,
-        Validators.email
-    ], this.validateEmailNotTaken.bind(this));
-    usernameControl = new FormControl('', [
-        Validators.required
-    ], this.validateUsernameNotTaken.bind(this));
+    emailControl = new FormControl('');
+    usernameControl = new FormControl('');
     
     constructor(
         private userService : UserService, 
@@ -57,30 +52,6 @@ export class UserComponent implements OnInit {
             autoUpload: true,
             maxUploads: 1,
             previewUrl: true,
-        });
-    }
-
-    validateEmailNotTaken(control: AbstractControl) {
-        return this.authService.validateEmail(control.value).map(res => {
-            if (!res.data) {
-                return {
-                    emailAlreadyRegistered: true
-                };
-            }
-
-            return {};
-        });
-    }
-
-    validateUsernameNotTaken(control: AbstractControl) {
-        return this.authService.validateUsername(control.value).map(res => {
-            if (!res.data) {
-                return {
-                    usernameAlreadyRegistered: true
-                };
-            }
-
-            return {};
         });
     }
 

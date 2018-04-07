@@ -33,55 +33,8 @@
                     </mat-progress-bar>
                 </div>
 
-                <mat-form-field class="white-input width-100 mt1">
-                    <input [formControl]="usernameControl" matInput placeholder="Username">
-                    <mat-error class="with-icon white-text-color" *ngIf="usernameControl.getError('required')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Username cannot be empty
-                        </div>
-                    </mat-error>
-                    <mat-error class="with-icon white-text-color" *ngIf="usernameControl.getError('usernameAlreadyRegistered')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            An account with this Username already exists
-                        </div>
-                    </mat-error>
-                    <mat-spinner *ngIf="usernameControl.pending" [diameter]="20"></mat-spinner>
-                </mat-form-field>
-
-                <mat-form-field class="white-input width-100 mt1">
-                    <input [formControl]="emailControl" matInput placeholder="Email">
-                    <mat-error class="with-icon white-text-color" *ngIf="emailControl.getError('required')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Email cannot be empty
-                        </div>
-                    </mat-error>
-                    <mat-error class="with-icon white-text-color" *ngIf="!emailControl.getError('required') && emailControl.getError('email')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Please enter a valid Email Address
-                        </div>
-                    </mat-error>
-                    <mat-error class="with-icon white-text-color" *ngIf="emailControl.getError('emailAlreadyRegistered')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            An account with this Email Address already exists.
-                        </div>
-                    </mat-error>
-                    <mat-spinner *ngIf="emailControl.pending" [diameter]="20"></mat-spinner>
-                </mat-form-field>
+                <username-field [inputControl]="usernameControl" [checkForUniqueness]="true"></username-field>
+                <email-field [inputControl]="emailControl" [checkForUniqueness]="true"></email-field>
                 
                 <div class="clearfix mt3">
                     <div class="md-col lg-col md-col-12 lg-col-6 px3">

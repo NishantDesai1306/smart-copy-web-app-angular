@@ -5,96 +5,19 @@
             <div class="width-100 logo-container">
                 <img src="/images/icon.png" alt="logo" class="logo indigo-background-color" >
             </div>
-            <mat-card-header class="mt3 mb2 flex justify-center items-center">
+            <mat-card-header class="mt3 flex justify-center items-center">
                 <div class="mr2">
                     <mat-icon style="font-size: 35px;" class="white-text-color">person_add</mat-icon>
                 </div>
                 <div>
-                    <h2 class="white-text-color">Register</h2>
+                    <h2 class="white-text-color my1">Register</h2>
                 </div>
             </mat-card-header>
             <mat-card-content>
-                <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="emailControl" matInput placeholder="Email" type="email">
-                    <mat-error class="with-icon white-text-color" *ngIf="emailControl.getError('required')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Email cannot be empty
-                        </div>
-                    </mat-error>
-                    <mat-error class="with-icon white-text-color" *ngIf="!emailControl.getError('required') && emailControl.getError('email')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Please enter a valid Email Address
-                        </div>
-                    </mat-error>
-                    <mat-error class="with-icon white-text-color" *ngIf="emailControl.getError('emailAlreadyRegistered')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            An account with this Email Address already exists.
-                        </div>
-                    </mat-error>
-                    <mat-spinner *ngIf="emailControl.pending" [diameter]="20"></mat-spinner>
-                </mat-input-container>
-        
-                <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="usernameControl" matInput placeholder="Username">
-                    <mat-error class="with-icon white-text-color" *ngIf="usernameControl.getError('required')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Username cannot be empty
-                        </div>
-                    </mat-error>
-                    <mat-error class="with-icon white-text-color" *ngIf="usernameControl.getError('usernameAlreadyRegistered')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            An account with this Username already exists
-                        </div>
-                    </mat-error>
-                    <mat-spinner *ngIf="usernameControl.pending" [diameter]="20"></mat-spinner>
-                </mat-input-container>
-        
-                <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="passwordControl" matInput placeholder="Password" type="password">
-                    <mat-error class="with-icon white-text-color" *ngIf="passwordControl.getError('required')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Password cannot be empty
-                        </div>
-                    </mat-error>
-                </mat-input-container>
-        
-                <mat-input-container class="white-input mt2 width-100">
-                    <input [formControl]="confirmPasswordControl" matInput placeholder="Confirm Password" type="password">
-                    <mat-error class="with-icon white-text-color" *ngIf="confirmPasswordControl.getError('required')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Confirm Password cannot be empty
-                        </div>
-                    </mat-error>
-                    <mat-error class="with-icon white-text-color" *ngIf="confirmPasswordControl.getError('doesNotMatch')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Password and Confirm Password must match
-                        </div>
-                    </mat-error>
-                </mat-input-container>
+                <email-field [inputControl]="emailControl" [checkForUniqueness]="true"></email-field>
+                <username-field [inputControl]="usernameControl" [checkForUniqueness]="true"></username-field>
+                <password-field [inputControl]="passwordControl"></password-field>
+                <password-field [inputControl]="confirmPasswordControl" [matchValue]="passwordControl.value"></password-field>
                 
                 <div class="clearfix mt3">
                     <div class="lg-col lg-col-12 px3">

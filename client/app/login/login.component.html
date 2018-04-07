@@ -5,48 +5,19 @@
             <div class="width-100 logo-container">
                 <img src="/images/icon.png" alt="logo" class="logo indigo-background-color" >
             </div>
-            <mat-card-header class="mt3 mb2 flex justify-center items-center">
+            <mat-card-header class="mt3 flex justify-center items-center">
                 <div class="mr2">
                     <mat-icon style="font-size: 35px;" class="white-text-color">account_circle</mat-icon>
                 </div>
                 <div>
-                    <h2 class="white-text-color">Login</h2>
+                    <h2 class="white-text-color my1">Login</h2>
                 </div>
             </mat-card-header>
             <mat-card-content>
-                <mat-form-field class="white-input mt1 width-100">
-                    <input matInput [formControl]="emailControl" placeholder="Email">
-                    <mat-error class="with-icon white-text-color" *ngIf="emailControl.getError('required')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Email cannot be empty
-                        </div>
-                    </mat-error>
-                    <mat-error class="with-icon white-text-color" *ngIf="!emailControl.getError('required') && emailControl.getError('email')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Please enter a valid Email Address
-                        </div>
-                    </mat-error>
-                </mat-form-field>
+                <email-field [inputControl]="emailControl"></email-field>
+                <password-field [inputControl]="passwordControl"></password-field>
                 
-                <mat-form-field class="white-input mt1 width-100">
-                    <input matInput [formControl]="passwordControl" placeholder="Password" type="password">
-                    <mat-error class="with-icon white-text-color" *ngIf="passwordControl.getError('required')">
-                        <div class="mr02">
-                            <mat-icon>error_outline</mat-icon>
-                        </div>
-                        <div>
-                            Password cannot be empty
-                        </div>
-                    </mat-error>
-                </mat-form-field>
-                
-                <mat-slide-toggle [(ngModel)]="rememberMe" class="white-toggle-switch mt1">Remember Me</mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="rememberMe" class="white-toggle-switch mt2">Remember Me</mat-slide-toggle>
                 
                 <div class="clearfix mt3">
                     <div class="lg-col lg-col-6 px3">
