@@ -1,0 +1,28 @@
+<mat-input-container class="white-input mt2 width-100">
+    <input [formControl]="inputControl" matInput placeholder="{{title}}">
+    <mat-error class="with-icon white-text-color" *ngIf="inputControl.getError('required')">
+        <div class="mr02">
+            <mat-icon>error_outline</mat-icon>
+        </div>
+        <div>
+            Email cannot be empty
+        </div>
+    </mat-error>
+    <mat-error class="with-icon white-text-color" *ngIf="!inputControl.getError('required') && inputControl.getError('email')">
+        <div class="mr02">
+            <mat-icon>error_outline</mat-icon>
+        </div>
+        <div>
+            Please enter a valid Email Address
+        </div>
+    </mat-error>
+    <mat-error class="with-icon white-text-color" *ngIf="inputControl.getError('emailAlreadyRegistered')">
+        <div class="mr02">
+            <mat-icon>error_outline</mat-icon>
+        </div>
+        <div>
+            An account with this Email Address already exists.
+        </div>
+    </mat-error>
+    <mat-spinner *ngIf="inputControl.pending" [diameter]="20"></mat-spinner>
+</mat-input-container>

@@ -1,0 +1,20 @@
+<mat-input-container class="white-input mt2 width-100">
+    <input [formControl]="inputControl" matInput placeholder="{{title}}">
+    <mat-error class="with-icon white-text-color" *ngIf="inputControl.getError('required')">
+        <div class="mr02">
+            <mat-icon>error_outline</mat-icon>
+        </div>
+        <div>
+            Username cannot be empty
+        </div>
+    </mat-error>
+    <mat-error class="with-icon white-text-color" *ngIf="inputControl.getError('usernameAlreadyRegistered')">
+        <div class="mr02">
+            <mat-icon>error_outline</mat-icon>
+        </div>
+        <div>
+            An account with this Username already exists
+        </div>
+    </mat-error>
+    <mat-spinner *ngIf="inputControl.pending" [diameter]="20"></mat-spinner>
+</mat-input-container>

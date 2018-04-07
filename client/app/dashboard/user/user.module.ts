@@ -1,3 +1,4 @@
+import { FormFieldModule } from './../../shared/form-fields/form-field.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -17,7 +18,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    NgUploaderModule
+    NgUploaderModule,
+
+    FormFieldModule
   ],
   declarations: [ 
     UserComponent,

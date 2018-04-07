@@ -12,58 +12,14 @@ import { AuthService } from './../../shared/auth.service';
 })
 export class RegisterComponent implements OnInit {
 
-    emailControl = new FormControl('', [
-        Validators.required,
-        Validators.email
-    ], this.validateEmailNotTaken.bind(this));
-    usernameControl = new FormControl('', [
-        Validators.required
-    ], this.validateUsernameNotTaken.bind(this));
-    passwordControl = new FormControl('', [
-        Validators.required
-    ]);
-    confirmPasswordControl = new FormControl('', [
-        Validators.required,
-        this.matchesPasswordValidator.bind(this)
-    ]);
+    emailControl = new FormControl('');
+    usernameControl = new FormControl('');
+    passwordControl = new FormControl('');
+    confirmPasswordControl = new FormControl('');
     
     constructor(private authService: AuthService, private router: Router, private notificationService: NotificationService) { }
 
     ngOnInit() { }
-    
-    validateEmailNotTaken(control: AbstractControl) {
-        return this.authService.validateEmail(control.value).map(res => {
-            if (!res.data) {
-                return {
-                    emailAlreadyRegistered: true
-                };
-            }
-
-            return {};
-        });
-    }
-
-    validateUsernameNotTaken(control: AbstractControl) {
-        return this.authService.validateUsername(control.value).map(res => {
-            if (!res.data) {
-                return {
-                    usernameAlreadyRegistered: true
-                };
-            }
-
-            return {};
-        });
-    }
-
-    matchesPasswordValidator(control: AbstractControl) {
-        if (control.value !== this.passwordControl.value) {
-            return {
-                doesNotMatch: true
-            }
-        }
-
-        return {};
-    }
 
     register() {
         if (this.emailControl.invalid || this.usernameControl.invalid || this.passwordControl.invalid || this.confirmPasswordControl.invalid) {

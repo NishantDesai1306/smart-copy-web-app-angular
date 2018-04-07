@@ -7,12 +7,32 @@ import { ToolbarModule } from './toolbar/toolbar.module';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { CopiedItemService } from './copied-item.service';
 import { UtilityService } from './utility.service';
+import { FormFieldModule } from './form-fields/form-field.module';
+import { UsernameFieldComponent } from './form-fields/username/username.component';
+import { EmailFieldComponent } from './form-fields/email/email.component';
+import { PasswordFieldComponent } from './form-fields/password/password.component';
 
 @NgModule({
-    imports: [MaterialModule, ToolbarModule],
-    exports: [ToolbarComponent, MaterialModule],
+    imports: [
+        MaterialModule,
+        ToolbarModule,
+        FormFieldModule
+    ],
+    exports: [
+        ToolbarComponent,
+        MaterialModule,
+        UsernameFieldComponent,
+        EmailFieldComponent,
+        PasswordFieldComponent
+    ],
     declarations: [],
-    providers: [AuthService, UserService, CopiedItemService, NotificationService, UtilityService],
+    providers: [
+        AuthService,
+        UserService,
+        CopiedItemService,
+        NotificationService,
+        UtilityService
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SharedModule { }

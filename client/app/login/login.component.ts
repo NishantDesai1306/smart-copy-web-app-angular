@@ -10,13 +10,8 @@ import { FormControl, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
     rememberMe : boolean = false;
 
-    emailControl = new FormControl('', [
-        Validators.required,
-        Validators.email
-    ]);
-    passwordControl = new FormControl('', [
-        Validators.required
-    ]);
+    emailControl = new FormControl('');
+    passwordControl = new FormControl('');
 
     constructor(
         private authService : AuthService, 

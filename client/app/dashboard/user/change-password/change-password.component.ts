@@ -11,16 +11,9 @@ export class ChangePasswordComponent implements OnInit {
 
     user: any = null;
 
-    oldPasswordControl = new FormControl('', [
-        Validators.required
-    ]);
-    newPasswordControl = new FormControl('', [
-        Validators.required
-    ]);
-    newConfirmPasswordControl = new FormControl('', [
-        Validators.required,
-        this.matchesPasswordValidator.bind(this)
-    ]);
+    oldPasswordControl = new FormControl('');
+    newPasswordControl = new FormControl('');
+    newConfirmPasswordControl = new FormControl('');
     
     constructor(
         private userService: UserService, 
@@ -32,16 +25,6 @@ export class ChangePasswordComponent implements OnInit {
         this.userService.getUser().subscribe(user => {
             this.user = user;
         });
-    }
-
-    matchesPasswordValidator(control: AbstractControl) {
-        if (control.value !== this.newPasswordControl.value) {
-            return {
-                doesNotMatch: true
-            }
-        }
-
-        return {};
     }
 
     changePassword() {
