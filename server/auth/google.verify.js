@@ -12,6 +12,7 @@ exports.verify = function (token, email) {
         }
 
         body = JSON.parse(body);
+        console.log(body, config.googleAppId);
         if (body.audience === config.googleAppId && body.email === email) {
             return defer.resolve();
         }
