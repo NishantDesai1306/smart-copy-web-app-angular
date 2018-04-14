@@ -15,7 +15,7 @@ exports.verify = function (token, email) {
         }
 
         body = JSON.parse(body);
-        console.log(body.audience, config.googleAppId, body.email, email);
+        console.log('@'+body.audience+'@', '@'+config.googleAppId+'@', '@'+body.email+'@', '@'+email+'@');
         if (body.audience === config.googleAppId && body.email === email) {
             return defer.resolve();
         }
