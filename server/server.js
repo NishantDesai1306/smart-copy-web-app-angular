@@ -43,8 +43,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.authenticate('remember-me'));
 
-app.use('/auth', authRouter.router);
-app.use('/api', authRouter.isAuthenticated, apiRouter);
+function detectApp(req, res, next) {
+    req.appType = req.baseUrl.indexOf('/app') === 0 ? 'mobile' : 'web';
+    next();
+}
+
+app.use(['/auth', '/app/auth'], detectApp, authRouter.router);
+app.use(['/api', '/app/api'], detectApp, authRouter.isAuthenticated, apiRouter);
+
 app.get('*', function(req, res, next) {
     res.sendFile(path.resolve('./dist/index.html'));
 });
