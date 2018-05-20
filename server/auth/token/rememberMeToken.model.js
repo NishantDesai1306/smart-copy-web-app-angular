@@ -1,26 +1,14 @@
 var mongoose = require('mongoose');
-var moment = require('moment');
+var Schema = mongoose.Schema;
 var Q = require('q');
 var bcrypt = require('bcrypt-nodejs');
 var _ = require('lodash');
 var randomString = require('randomstring');
+var TokenModel = require('./token.model');
 
-var Schema = mongoose.Schema;
+var rememberMeTokenSchema = new Schema({});
 
-var tokenSchema = new Schema({
-    token: {
-        type: String,
-        required: true
-    },
-    user: {
-        type: Schema.Types.ObjectId, 
-        ref: 'User'
-    }
-}, {
-    discriminatorKey: 'type'
-});
-
-tokenSchema.statics = {
+rememberMeTokenSchema.statics = {
     consumeToken: function(token) {
         var consumeTokenDefer = Q.defer();
 
@@ -75,6 +63,6 @@ tokenSchema.statics = {
     }
 };
 
-var Token = mongoose.model('Token', tokenSchema);
+var RememberMeToken = TokenModel.discriminator('RememberMeToken', rememberMeTokenSchema);
 
-module.exports = Token;
+module.exports = RememberMeToken;

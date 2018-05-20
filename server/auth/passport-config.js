@@ -2,7 +2,7 @@ var bcrypt = require('bcrypt-nodejs');
 var LocalStrategy = require('passport-local').Strategy;
 var RememberMeStrategy = require('passport-remember-me').Strategy;
 var User = require('../api/user/user.model');
-var Token = require('./token/token.model');
+var RememberMeToken = require('./token/rememberMeToken.model');
 
 exports.setupPassport = function(passport) {
     
@@ -66,7 +66,7 @@ exports.setupPassport = function(passport) {
     ));
 
     var issueToken = function(user, done) {
-        Token.issueToken(user._id.toString())
+        RememberMeToken.issueToken(user._id.toString())
         .then(function(tokenObj) {
             done(null, tokenObj.token);
         }, function(err) {
@@ -76,7 +76,7 @@ exports.setupPassport = function(passport) {
 
     passport.use(new RememberMeStrategy(
         function(token, done) {
-            Token.consumeToken(token)
+            RememberMeToken.consumeToken(token)
                 .then(function(userId) {
                     if (!userId) { 
                         return done(null, false); 

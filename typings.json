@@ -1,5 +1,6 @@
 {
   "globalDependencies": {
-    "core-js": "registry:dt/core-js#0.9.7+20161130133742"
+    "core-js": "registry:dt/core-js#0.9.7+20161130133742",
+    "moment": "registry:dt/moment#2.11.1+20161010105546"
   }
 }

@@ -305,6 +305,7 @@ userSchema.statics = {
             return Q.reject(new Error('invalid email provided'));
         }
 
+        console.log(criteria);
         model.findOne(criteria, function(err, user) {
             if (err) {
                 return defer.reject(err);

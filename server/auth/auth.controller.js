@@ -6,7 +6,8 @@ var bcrypt = require('bcrypt-nodejs');
 
 var config = require('../config');
 var User = require('../api/user/user.model');
-var Token = require('./token/token.model');
+var RememberMeToken = require('./token/rememberMeToken.model');
+var AuthToken = require('./token/authToken.model');
 var GoogleVerifier = require('./google.verify');
 
 var salt = config.salt;
@@ -105,6 +106,7 @@ exports.socialLogin = function(req, res, next) {
 exports.login = function(req, res) {
     passport.authenticate('local', function(err, user, info) {
         var promise = Q.when();
+        var appToken = null;
 
         if (!user) {
             return res.json({
@@ -125,9 +127,28 @@ exports.login = function(req, res) {
                 return userDefer.resolve(user);
             });
         })
+        .then(function (user) {
+            var defer = Q.defer();
+        
+            if (req.appType === 'mobile') {
+                AuthToken.issueToken(req.user._id)
+                .then(function (authTokenObj) {
+                    appToken = authTokenObj.token;
+                    return defer.resolve();
+                })
+                .catch(function(err) {
+                    return defer.reject(err);
+                });
+            }
+            else {
+                defer.resolve();
+            }
+
+            return defer.promise;
+        })
         .then(function() {
             if (req.body.rememberMe) {
-                return Token.issueToken(req.user._id);
+                return RememberMeToken.issueToken(req.user._id);
             }
             else {
                 return Q.when();
@@ -145,7 +166,8 @@ exports.login = function(req, res) {
                     _id: user._id,
                     username: user.username,
                     email: user.email,
-                    profilePictureUrl: user.profilePicture.path
+                    profilePictureUrl: user.profilePicture.path,
+                    token: appToken
                 }
             });
         })
@@ -168,7 +190,7 @@ exports.successRegister = function(req, res) {
 };
 
 exports.logout = function(req, res) {
-    Token.clearUserTokens(req.user._id.toString());
+    RememberMeToken.clearUserTokens(req.user._id.toString());
 
     req.logout();
     res.clearCookie('remember_me');
