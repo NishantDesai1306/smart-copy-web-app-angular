@@ -8,6 +8,7 @@ import {AuthService} from '../auth.service';
 export class ToolbarComponent implements OnInit {
 
     user : any;
+    profilePictureUrl: string;
     downloadLinks:any = {
         android: {
             name: 'smart-copy-app.apk',
@@ -27,6 +28,7 @@ export class ToolbarComponent implements OnInit {
         this.userService.getUser()
         .subscribe((newUser) => {
             this.user = newUser;
+            this.profilePictureUrl = this.user.getProfilePictureUrl();
         });
     }
 

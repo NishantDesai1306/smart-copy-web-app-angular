@@ -32,7 +32,7 @@ export class MainComponent implements OnInit {
 
     onAddItem() {
         const dialogRef = this.dialog.open(CreateCopiedItemModalComponent, {
-            minWidth: '500px',
+            minWidth: '50%',
             data: { value: '' }
         });
       
@@ -53,7 +53,7 @@ export class MainComponent implements OnInit {
         }
 
         const dialogRef = this.dialog.open(UpdateCopiedItemModalComponent, {
-            minWidth: '500px',
+            minWidth: '50%',
             data: { value: selectedCopiedItem.getValue() }
         });
       

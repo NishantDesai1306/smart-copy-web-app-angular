@@ -2,7 +2,7 @@
 @import "https://fonts.googleapis.com/css?family=Roboto:400,300";
 
 @import '../../node_modules/@angular/material/_theming.scss';
-@import "../../node_modules/basscss/css/basscss.min.css";
+@import "../../node_modules/bootstrap-4-grid/css/grid.min.css";
 
 @import './loader.scss';
 @import './utility.scss';
@@ -21,6 +21,8 @@ $primary: mat-palette($mat-indigo);
 $accent: mat-palette($mat-grey);
 $theme: mat-light-theme($primary, $accent);
 @include angular-material-theme($theme);
+
+p,body{margin:0}
 
 h1 {
     color: blue;

@@ -1,6 +1,6 @@
-<div class="clearfix">
-    <div class="lg-col lg-col-2 md-hide sm-hide xs-hide">&nbsp;</div>
-    <div class="lg-col lg-col-8 flex justify-center">
+<div class="width-100 m-0 row">
+    <div class="col-lg-2 d-lg-block d-none p-0">&nbsp;</div>
+    <div class="col-lg-8 col-md-12 d-flex justify-content-center p-0">
         <div *ngIf="loadingData" class="loader-spinner loader-large" style="position: absolute; top: 35%; left: 48%;">
             <div class="loader-spinner-wrapper">
                 <div class="loader-rotator">
@@ -12,45 +12,56 @@
 
         <div *ngIf="!loadingData" class="width-100">
             <mat-nav-list class="width-100 copied-item-list" *ngIf="copiedItems && copiedItems.length">
-                <mat-list-item class="expandable white-background mat-elevation-z1" *ngFor="let copiedItem of copiedItems">
-                    <div ngxClipboard [cbContent]="copiedItem.value" (cbOnSuccess)="onCopy(copiedItem.value)" class="copied-item-list-content clearfix width-100 flex items-center">
-                        <div class="col xs-col mr3">
-                            <div class="flex items-center">
-                                <avatar class="avatar" matListIcon [background]="'#1E88E5'" [size]="40" [name]="copiedItem.value" [displayType]="'circle'"></avatar>
+                <mat-list-item class="width-100 expandable white-background mat-elevation-z1" *ngFor="let copiedItem of copiedItems">
+                    <div ngxClipboard [cbContent]="copiedItem.value" (cbOnSuccess)="onCopy(copiedItem.value)" class="width-100 align-items-center">
+                        <div class="row">
+                            <div class="col-1 d-none d-sm-flex align-items-center">
+                                <div class="pl-2 d-flex align-items-center">
+                                    <div style="display: flex; justify-content: center; align-items: center; height: 40px; width: 40px; border-radius: 20px; background: #1E88E5">
+                                        <div>
+                                            <span style="color: white; font-size: 15px;">
+                                                {{ copiedItem.value[0].toUpperCase() }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- <avatar class="avatar" matListIcon [background]="'#1E88E5'" [size]="40" [name]="copiedItem.value" [displayType]="'circle'"></avatar> -->
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="col col-10">
-                            <p>
-                                <span> {{copiedItem.displayValue}} </span>
-                            </p>
-
-                            <p matLine class="m0"></p>
-                        </div>
-
-                        <div class="col col-1">
-                            <button class="pull-right" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation();">
-                                <mat-icon>more_vert</mat-icon>
-                            </button>
-                            <mat-menu #menu="matMenu">
-                                <button mat-menu-item (click)="onUpdateItem(copiedItem._id)">
-                                    <mat-icon>mode_edit</mat-icon>
-                                    <span>Edit</span>
-                                </button>
-                                <button mat-menu-item (click)="onDeleteItem(copiedItem._id)">
-                                    <mat-icon>delete</mat-icon>
-                                    <span>Delete</span>
-                                </button>
-                            </mat-menu>
+    
+                            <div class="d-flex align-items-center col-11 col-sm-10">
+                                <p class="pl-2">
+                                    <span> {{copiedItem.displayValue}} </span>
+                                </p>
+    
+                                <p matLine class="m-0"></p>
+                            </div>
+    
+                            <div class="row col-1 align-items-center justify-content-center p-0">
+                                <div class="col-12 p-0">
+                                    <button class="pull-right" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation();">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                        <button mat-menu-item (click)="onUpdateItem(copiedItem._id)">
+                                            <mat-icon>mode_edit</mat-icon>
+                                            <span>Edit</span>
+                                        </button>
+                                        <button mat-menu-item (click)="onDeleteItem(copiedItem._id)">
+                                            <mat-icon>delete</mat-icon>
+                                            <span>Delete</span>
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </mat-list-item>
             </mat-nav-list>
     
-            <div class="mt4 flex justify-center items-center" *ngIf="!copiedItems || !copiedItems.length">
-                <div class="mr3">
-                    <mat-icon style="font-size: 45px;" class="disabled-text">sentiment_very_dissatisfied</mat-icon>
+            <div class="mt-4 d-flex justify-content-center align-items-center" *ngIf="!copiedItems || !copiedItems.length">
+                <div>
+                    <mat-icon style="font-size: 45px;" class="disabled-text mr-3">sentiment_very_dissatisfied</mat-icon>
                 </div>
                 <div>
                     <h2 style="margin: 0;" class="mat-display-1 disabled-text">No Items found</h2>

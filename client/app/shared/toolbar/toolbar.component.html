@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
-    <img src="/images/icon.png" alt="logo" style="height: 50px;" class="cursor-pointer mr1" (click)="router.navigate(['/dashboard/main']);">
+    <img src="/images/icon.png" alt="logo" style="height: 50px;" class="cursor-pointer mr-1" (click)="router.navigate(['/dashboard/main']);">
     
     <span>
         <a style="color: white; text-decoration: none;" [routerLink]="['/home']">Smart Copy</a>
@@ -17,13 +17,17 @@
         </button>
     </mat-menu>
 
-    <button matTooltip="{{loading ? 'Loading...' : 'Refresh'}}" class="p3" *ngIf="user && user.getUsername()" mat-icon-button (click)="reloadList()">
+    <button
+        matTooltip="{{loading ? 'Loading...' : 'Refresh'}}"
+        *ngIf="user && user.getUsername()"
+        mat-icon-button (click)="reloadList()"
+    >
         <mat-icon *ngIf="!loading">refresh</mat-icon>
         <mat-spinner class="item-loader" *ngIf="loading"></mat-spinner>
     </button>
 
-    <button *ngIf="user && user.getUsername()" mat-button [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon> &nbsp; {{user && user.getUsername()}}
+    <button *ngIf="user && user.getUsername()" mat-icon-button matTooltip="Account" [matMenuTriggerFor]="menu">
+        <img [src]="profilePictureUrl" alt="profile picture" class="avatar-35">
     </button>
     <mat-menu #menu="matMenu">
         <button mat-menu-item routerLink="/dashboard/user">
