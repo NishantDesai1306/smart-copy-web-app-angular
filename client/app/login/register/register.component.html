@@ -1,30 +1,32 @@
-<div class="clearfix pt1">
-    <div class="lg-col lg-col-3 md-col-1">&nbsp;</div>
-    <div class="lg-col lg-col-6 md-col-10">
-        <mat-card class="m4 indigo-background-color">
-            <div class="width-100 logo-container">
-                <img src="/images/icon.png" alt="logo" class="logo indigo-background-color" >
-            </div>
-            <mat-card-header class="mt3 flex justify-center items-center">
-                <div class="mr2">
-                    <mat-icon style="font-size: 35px;" class="white-text-color">person_add</mat-icon>
+<div class="height-100 d-flex justify-content-center align-items-center">
+    <div class="pt-1 row">
+        <div class="col-lg-3 col-md-1">&nbsp;</div>
+        <div class="col-lg-6 col-md-10">
+            <mat-card class="m-4 indigo-background-color">
+                <div class="width-100 logo-container">
+                    <img src="/images/icon.png" alt="logo" class="logo indigo-background-color" >
                 </div>
-                <div>
-                    <h2 class="white-text-color my1">Register</h2>
-                </div>
-            </mat-card-header>
-            <mat-card-content>
-                <email-field [inputControl]="emailControl" [checkForUniqueness]="true"></email-field>
-                <username-field [inputControl]="usernameControl" [checkForUniqueness]="true"></username-field>
-                <password-field [inputControl]="passwordControl"></password-field>
-                <password-field [inputControl]="confirmPasswordControl" [matchValue]="passwordControl.value"></password-field>
-                
-                <div class="clearfix mt3">
-                    <div class="lg-col lg-col-12 px3">
-                        <button [disabled]="emailControl.pending || usernameControl.pending" class="width-100" (click)="register()" mat-raised-button>Register</button>
+                <mat-card-header class="mt-3 d-flex justify-content-center align-items-center">
+                    <div class="mr-2">
+                        <mat-icon style="font-size: 35px;" class="white-text-color">person_add</mat-icon>
                     </div>
-                </div>
-            </mat-card-content>
-        </mat-card>
+                    <div class="ml-2">
+                        <h2 class="white-text-color my-1">Register</h2>
+                    </div>
+                </mat-card-header>
+                <mat-card-content>
+                    <email-field [inputControl]="emailControl" [checkForUniqueness]="true"></email-field>
+                    <username-field [inputControl]="usernameControl" [checkForUniqueness]="true"></username-field>
+                    <password-field [inputControl]="passwordControl"></password-field>
+                    <password-field [inputControl]="confirmPasswordControl" [matchValue]="passwordControl.value"></password-field>
+                    
+                    <div class="mt-3">
+                        <div class="col-lg-12 px-2">
+                            <button [disabled]="emailControl.pending || usernameControl.pending" class="width-100" (click)="register()" mat-raised-button>Register</button>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
     </div>
 </div>

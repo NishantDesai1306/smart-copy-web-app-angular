@@ -7,7 +7,16 @@ import {UserService} from './../../shared/user.service';
 import { NotificationService } from '../../shared/notification.service';
 import { FormControl, Validators, AbstractControl } from '@angular/forms';
 
-@Component({templateUrl: './user.component.html'})
+@Component({
+    templateUrl: './user.component.html', 
+    styles: [`
+        :host {
+            display: flex;
+            flex: 1;
+            flex-direction: column
+        }`
+    ]
+})
 export class UserComponent implements OnInit {
     profilePictureUrl: string = '';
     previewData: any;
@@ -40,9 +49,11 @@ export class UserComponent implements OnInit {
             .userService
             .getUser()
             .subscribe(user => {
-                this.usernameControl.setValue(user.getUsername(), {emitEvent: true});
-                this.emailControl.setValue(user.getEmail(), {emitEvent: true});
-                this.profilePictureUrl = user.getProfilePictureUrl();
+                setTimeout(() => {
+                    this.usernameControl.setValue(user.getUsername(), {emitEvent: true});
+                    this.emailControl.setValue(user.getEmail(), {emitEvent: true});
+                    this.profilePictureUrl = user.getProfilePictureUrl();
+                }, 100)
             });
 
         this.uploaderOptions = new NgUploaderOptions({

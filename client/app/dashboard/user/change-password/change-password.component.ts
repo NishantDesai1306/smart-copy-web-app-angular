@@ -5,7 +5,14 @@ import { NotificationService } from '../../../shared/notification.service';
 import { FormControl, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
-    templateUrl: './change-password.component.html'
+    templateUrl: './change-password.component.html',
+    styles: [`
+        :host {
+            display: flex;
+            flex: 1;
+            flex-direction: column
+        }`
+    ]
 })
 export class ChangePasswordComponent implements OnInit {
 

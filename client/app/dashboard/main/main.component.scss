@@ -1,11 +1,19 @@
 @import './modals/create/create.component.scss';
 @import './modals/update/update.component.scss';
 @import './modals/delete/delete.component.scss';
+@import '../../shared/variable.scss';
+
+.main {
+    position: absolute;
+    top: $toolbar-height;
+    left: 0;
+    right: 0;
+}
 
 .main-fab {
     position: fixed !important;
-    bottom: 75px;
-    right: 150px;
+    bottom: 5%;
+    right: 7%;
 }
 
 .white-background {

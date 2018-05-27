@@ -1,5 +1,9 @@
-<div style="min-height: 64px;">
-    <toolbar></toolbar>
+<div class="main-page height-100 width-100">
+    <div class="toolbar-container">
+        <toolbar></toolbar>
+    </div>
+    
+    <div class="d-flex flex-column flex-grow-1 width-100">
+        <router-outlet></router-outlet>
+    </div>
 </div>
-
-<router-outlet></router-outlet>

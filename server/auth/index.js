@@ -32,27 +32,29 @@ var authTokenVerificationMiddleware = function (strict) {
     }
 }
 
-var isAuthenticated = function(req, res, next) {
-    if (req.appType === 'mobile') {
-        var middleware = authTokenVerificationMiddleware(true);
-        middleware(req, res, next);
-    } 
-    else if(req.isAuthenticated()) {
-        next();
-    }
-    else {
-        next(new Error('Unauthorized'));
-    }
+var isAuthenticated = function(strict) {
+    return function (req, res, next) {
+        if (req.appType === 'mobile') {
+            var middleware = authTokenVerificationMiddleware(strict);
+            middleware(req, res, next);
+        } 
+        else if(req.isAuthenticated()) {
+            next();
+        }
+        else {
+            next(new Error('Unauthorized'));
+        }
+    };
 };
 exports.isAuthenticated = isAuthenticated;
 
-router.get('/validate-email', authTokenVerificationMiddleware(), controller.validateEmail);
-router.get('/validate-username', authTokenVerificationMiddleware(), controller.validateUsername);
+router.get('/validate-email', isAuthenticated(false), controller.validateEmail);
+router.get('/validate-username', isAuthenticated(false), controller.validateUsername);
 
 router.post('/login', controller.login);
 router.post('/social-login', controller.socialLogin);
 router.post('/register', passport.authenticate('local-signup'), controller.successRegister);
-router.post('/logout', isAuthenticated, controller.logout);
+router.post('/logout', isAuthenticated(true), controller.logout);
 
 
 exports.router = router;

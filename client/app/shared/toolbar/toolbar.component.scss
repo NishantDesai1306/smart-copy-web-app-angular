@@ -1,3 +1,13 @@
+@import '../variable.scss';
+
+.toolbar-container {
+    .mat-toolbar {
+        min-height: $toolbar-height;
+    }
+
+    min-height: $toolbar-height;    
+}
+
 .item-loader.mat-spinner {
     position: relative;
     top: -5px;

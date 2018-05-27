@@ -25,7 +25,7 @@ div.logo-container {
 
     position: absolute;
     left: 0;
-    top: -$total-height/2;
+    top: (-$total-height/2) + 5;
 
     img.logo {
         display: block;
